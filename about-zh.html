@@ -1,0 +1,463 @@
+<html><head><base href="https://quantumwings.github.io/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>關於 JER LIAW</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+<style>
+    :root {
+        --primary-color: #2C3E50;
+        --secondary-color: #ECF0F1;
+        --accent-color: #E67E22;
+        --text-color: #34495E;
+        --background-color: #FDFEFE;
+    }
+    
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Montserrat', sans-serif;
+        color: var(--text-color);
+        background-color: var(--background-color);
+        scroll-behavior: smooth;
+    }
+    
+    header {
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 15px 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    header.scrolled {
+        background-color: rgba(255, 255, 255, 0.98);
+    }
+    
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .logo {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+    
+    .nav-links {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-links li {
+        margin-left: 30px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .nav-links a {
+        text-decoration: none;
+        color: var(--primary-color);
+        font-weight: 400;
+        transition: color 0.3s ease;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    .nav-links a:hover {
+        color: var(--accent-color);
+    }
+    
+    main {
+        max-width: 1200px;
+        margin: 100px auto 50px;
+        padding: 0 20px;
+    }
+    
+    .about-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .about-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    
+    .about-header h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 48px;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+    }
+    
+    .about-header p {
+        font-size: 18px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .about-content {
+        display: flex;
+        justify-content: space-between;
+        gap: 50px;
+        margin-bottom: 50px;
+    }
+    
+    .about-image {
+        flex: 1;
+        max-width: 500px;
+    }
+    
+    .about-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .about-text {
+        flex: 1;
+    }
+    
+    .about-text p {
+        font-size: 16px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+    
+    .signature {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 32px;
+        color: var(--accent-color);
+        margin-top: 30px;
+    }
+    
+    .awards-section {
+        text-align: center;
+        margin-top: 50px;
+    }
+    
+    .awards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+    }
+    
+    .award-item {
+        text-align: center;
+    }
+    
+    .award-item img {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        margin-bottom: 10px;
+    }
+    
+    .award-item p {
+        font-size: 14px;
+        font-weight: 600;
+    }
+    
+    .cta-section {
+        text-align: center;
+        margin-top: 50px;
+    }
+    
+    .cta-button {
+        display: inline-block;
+        background-color: var(--accent-color);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+    
+    .cta-button:hover {
+        background-color: #D35400;
+    }
+    
+    footer {
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        text-align: center;
+        padding: 30px 0;
+        margin-top: 50px;
+    }
+    
+    .social-icons {
+        margin-bottom: 15px;
+    }
+    
+    .social-icons a {
+        color: var(--secondary-color);
+        font-size: 20px;
+        margin: 0 10px;
+        transition: color 0.3s ease;
+    }
+    
+    .social-icons a:hover {
+        color: var(--accent-color);
+    }
+	
+	.language-selector {
+        display: flex;
+        align-items: center;
+        position: relative;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+    }
+    
+    .language-selector select {
+        appearance: none;
+        background-color: transparent;
+        border: none;
+        padding: 5px 20px 5px 5px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--primary-color);
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    
+    .language-selector::after {
+        content: '\25BC';
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        transform: translateY(-50%);
+        pointer-events: none;
+        font-size: 12px;
+        color: var(--primary-color);
+    }
+	
+	.menu-toggle {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+	
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 200px;
+            padding: 20px;
+        }
+        
+        .nav-links.active {
+            display: flex;
+        }
+        
+        .nav-links li {
+            margin: 10px 0;
+        }
+        
+        .menu-toggle {
+            display: block;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .about-content {
+        flex-direction: column;
+        align-items: center;
+        }
+
+        .about-image {
+            order: 1;
+        }
+
+        .about-text {
+            order: 2;
+            text-align: center;
+            padding: 0 20px;
+        }
+    }
+</style>
+</head>
+<body>
+    <div id="app">
+        <header :class="{ 'scrolled': scrolled }">
+            <nav>
+                <div class="logo">JER LIAW</div>
+                <ul class="nav-links" :class="{ 'active': menuActive }">
+                    <li v-for="item in menuItems" :key="item.id">
+                        <a :href="item.link" @click="setActivePage(item.id)">{{ item.name }}</a>
+                    </li>
+                    <li class="language-selector">
+                        <select v-model="selectedLanguage" @change="changeLanguage">
+                            <option value="en">EN</option>
+                            <option value="zh">中文</option>
+                        </select>
+                    </li>
+                </ul>
+                <div class="menu-toggle" @click="toggleMenu">&#9776;</div>
+            </nav>
+        </header>
+
+        <main>
+            <section class="about-section">
+                <div class="about-header">
+                    <h1>關於 JER LIAW</h1>
+                    <p>透過策略領導與創新科技促進企業成功</p>
+                </div>
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="img/personal.png" alt="JER LIAW portrait">
+                    </div>
+                    <div class="about-text">
+					<p>歡迎來到我的專業頁面。我擁有超過25年的企業管理及資訊科技整合經驗，職業生涯融合了技術專業與卓越領導。在領導大型企業及跨部門團隊中，具備全面的營運策略和運營管理專業知識。</p> <p>我一直專注於理解每個組織的獨特需求，並尋找最適合的技術解決方案來支持其成長。通過將技術與業務策略對齊，目標是創造增值和促進創新的解決方案。優先考慮協作與戰略指導，以確保技術投資與組織目標巧妙對接。</p> <p>管理跨國團隊和監督複雜專案的經驗，使我能夠高效橋接不同技術平台並領導多樣化團隊。將先進技術，如人工智慧和機器學習，整合到業務流程中，是提升運營效率和保持競爭優勢的關鍵。</p> <p>領導能力和數據驅動的決策是我工作的核心。通過利用全面的數據分析，推動戰略舉措，並優化業務運營。專業領域包括雲端部署、資訊安全和災難恢復，具有在數據中心運營和開發穩健安全框架方面的成功經驗。</p> <p>對持續學習和創新的強烈承諾確保了能夠保持在技術前沿。目標是通過將尖端技術與戰略洞察和有效領導相結合，對組織的成功做出有意義的貢獻。</p> <p>感謝您花時間探索這段專業旅程。我對於成長和創新的新機會持開放態度，並渴望在未來的專案中合作，推動成功和創新。</p> <br><br> <p>專業專長與技能</p> <p>領導與管理：</p> <p>。業務管理 。戰略規劃 。高階管理經驗 。跨國業務運營 。團隊領導 。運營管理 。專案管理 。企業流程再造 。跨部門協調 。企業資源規劃（ERP） 。企業內部審計與控制及ISO標準導入 。資產管理 。合同協議審核與管理 。供應鏈管理 。生產管理</p><br> <p>資訊科技：</p> <p>。資訊安全管理 。人工智慧系統開發 。機器學習 。深度學習 。資訊系統整合 。雲端部署 。跨境網絡與混合雲部署 。資訊中心運營 。異質平台整合 。資訊虛擬化 。雲端混合雲 。資訊災難恢復 。集團資訊安全政策 。遠端工作平台實施 。資訊採購與供應鏈管理 。無線網絡技術 。企業監控系統 。創新與轉型</p><br> <p>數位轉型：</p> <p>。創新技術導入 。數據驅動決策 。數據分析 。智慧製造</p><br> <p>其他專長：</p> <p>。新技術專案推廣 。電機與工業電子 。企業識別系統（CIS） 。商業攝影與平面設計</p>
+                        <div class="signature">JER LIAW</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="cta-section">
+                <h2>準備好合作了嗎？</h2>
+                <p>讓我們一起創造美好的事物</p>
+                <a href="contact-zh.html" class="cta-button">聯絡我</a>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; {{ new Date().getFullYear() }} Jer Liaw 保留所有權利。</p>
+        </footer>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            menuActive: false,
+            selectedLanguage: 'zh',
+            menuItems: [
+                { id: 'home', name: '首頁', link: 'index-zh.html' },
+                { id: 'portfolio', name: '作品集', link: 'portfolio-zh.html' },
+                { id: 'about', name: '關於', link: 'about-zh.html' },
+                { id: 'books', name: '書籍', link: 'books-zh.html' },
+                { id: 'blog', name: '部落格', link: 'blog-zh.html' },
+                { id: 'contact', name: '聯絡', link: 'contact-zh.html' },
+            ],
+        },
+        mounted() {
+            this.initAnimations();
+        },
+        methods: {
+            initAnimations() {
+                gsap.registerPlugin(ScrollTrigger);
+
+                gsap.from('.about-header', {
+                    opacity: 0,
+                    y: -50,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: '.about-header',
+                        start: 'top bottom-=100',
+                    }
+                });
+
+                gsap.from('.about-image', {
+                    opacity: 0,
+                    x: -50,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: '.about-image',
+                        start: 'top bottom-=100',
+                    }
+                });
+
+                gsap.from('.about-text', {
+                    opacity: 0,
+                    x: 50,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: '.about-text',
+                        start: 'top bottom-=100',
+                    }
+                });
+
+                gsap.from('.awards-section', {
+                    opacity: 0,
+                    y: 50,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: '.awards-section',
+                        start: 'top bottom-=100',
+                    }
+                });
+
+                gsap.utils.toArray('.award-item').forEach((item, index) => {
+                    gsap.from(item, {
+                        opacity: 0,
+                        y: 30,
+                        duration: 0.8,
+                        delay: index * 0.2,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: item,
+                            start: 'top bottom-=50',
+                        }
+                    });
+                });
+
+                gsap.from('.cta-section', {
+                    opacity: 0,
+                    y: 50,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: '.cta-section',
+                        start: 'top bottom-=100',
+                    }
+                });
+            },
+            toggleMenu() {
+                this.menuActive = !this.menuActive;
+            },
+            changeLanguage() {
+                if (this.selectedLanguage === 'en') {
+                    window.location.href = 'about.html';
+                } else if (this.selectedLanguage === 'zh') {
+                    window.location.href = 'about-zh.html';
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

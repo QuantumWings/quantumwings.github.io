@@ -1,0 +1,596 @@
+<html><head><base href="https://quantumwings.github.io/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JER LIAW - Books</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+<style>
+    :root {
+        --primary-color: #2C3E50;
+        --secondary-color: #ECF0F1;
+        --accent-color: #E67E22;
+        --text-color: #34495E;
+        --background-color: #FDFEFE;
+    }
+    
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Montserrat', sans-serif;
+        color: var(--text-color);
+        background-color: var(--background-color);
+        scroll-behavior: smooth;
+    }
+    
+    header {
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 15px 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    header.scrolled {
+        background-color: rgba(255, 255, 255, 0.98);
+    }
+    
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .logo {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+    
+    .nav-links {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-links li {
+        margin-left: 30px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .nav-links a {
+        text-decoration: none;
+        color: var(--primary-color);
+        font-weight: 400;
+        transition: color 0.3s ease;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    .nav-links a:hover {
+        color: var(--accent-color);
+    }
+    
+    .books-hero {
+        background-image: url('img/Books.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        position: relative;
+    }
+    
+    .books-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+    }
+    
+    .books-hero-content {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .books-hero h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 64px;
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+    
+    .books-section {
+        padding: 80px 0;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .books-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-top: 40px;
+    }
+    
+    .book-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: transform 0.3s ease;
+        height: 100%;
+    }
+    
+    .book-item:hover {
+        transform: translateY(-10px);
+    }
+    
+    .book-cover {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        transition: box-shadow 0.3s ease;
+    }
+    
+    .book-item:hover .book-cover {
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+    
+    .book-info {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 20px 0;
+		align-items: center; /* 置中對齊 */
+    	text-align: center; /* 文字置中 */
+    }
+    
+    .book-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 24px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-weight: 600;
+        line-height: 1.2;
+        height: 2.4em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    
+    .book-description {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 20px;
+        flex-grow: 1;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        height: 4.5em;
+    }
+    
+    .book-link {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: var(--accent-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        margin-top: auto;
+        cursor: pointer;
+		align-items: center;
+    	justify-content: center;
+    	width: 150px;
+    }
+    
+    .book-link:hover {
+        background-color: #D35400;
+    }
+    
+    footer {
+        background-color: var(--primary-color);
+        text-align: center;
+        padding: 40px 0;
+        color: var(--secondary-color);
+    }
+    
+    .social-icons a {
+        margin: 0 15px;
+        color: var(--secondary-color);
+        font-size: 24px;
+        transition: color 0.3s ease;
+    }
+    
+    .social-icons a:hover {
+        color: var(--accent-color);
+    }
+    
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1001;
+    }
+    
+    .modal-content {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
+    }
+    
+    .modal-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--primary-color);
+    }
+    
+    .modal-book-cover {
+        width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    
+    .modal-book-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 28px;
+        margin-bottom: 15px;
+        color: var(--primary-color);
+    }
+    
+    .modal-book-description {
+        font-size: 16px;
+        line-height: 1.6;
+        color: var(--text-color);
+        margin-bottom: 20px;
+    }
+	
+    footer {
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        text-align: center;
+        padding: 30px 0;
+        margin-top: 50px;
+    }
+    
+    .social-icons {
+        margin-bottom: 15px;
+    }
+    
+    .social-icons a {
+        color: var(--secondary-color);
+        font-size: 20px;
+        margin: 0 10px;
+        transition: color 0.3s ease;
+    }
+    
+    .social-icons a:hover {
+        color: var(--accent-color);
+    }
+
+	.language-selector {
+        display: flex;
+        align-items: center;
+        position: relative;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+    }
+    
+    .language-selector select {
+        appearance: none;
+        background-color: transparent;
+        border: none;
+        padding: 5px 20px 5px 5px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--primary-color);
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    
+    .language-selector::after {
+        content: '\25BC';
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        transform: translateY(-50%);
+        pointer-events: none;
+        font-size: 12px;
+        color: var(--primary-color);
+    }
+	
+	.menu-toggle {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+	
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 200px;
+            padding: 20px;
+        }
+        
+        .nav-links.active {
+            display: flex;
+        }
+        
+        .nav-links li {
+            margin: 10px 0;
+        }
+        
+        .menu-toggle {
+            display: block;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    }
+</style>
+</head>
+<body>
+    <div id="app">
+        <header :class="{ 'scrolled': scrolled }">
+            <nav>
+                <div class="logo">JER LIAW</div>
+                <ul class="nav-links" :class="{ 'active': menuActive }">
+                    <li v-for="item in menuItems" :key="item.id">
+                        <a :href="item.link" @click="setActivePage(item.id)">{{ item.name }}</a>
+                    </li>
+                    <li class="language-selector">
+                        <select v-model="selectedLanguage" @change="changeLanguage">
+                            <option value="en">EN</option>
+                            <option value="zh">中文</option>
+                        </select>
+                    </li>
+                </ul>
+                <div class="menu-toggle" @click="toggleMenu">&#9776;</div>
+            </nav>
+        </header>
+
+        <section class="books-hero">
+            <div class="books-hero-content">
+                <h1>Books & Publications</h1>
+            </div>
+        </section>
+
+		<section class="books-section">
+			<div class="books-grid">
+				<div v-for="book in books" :key="book.id" class="book-item">
+					<img :src="book.cover" :alt="book.title" class="book-cover">
+					<div class="book-info">
+						<h2 class="book-title">{{ book.title }}</h2>
+						<p class="book-description" v-html="book.description"></p>
+						<a class="book-link" @click="openModal(book)">Learn More</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+        <footer>
+            <p>&copy; {{ new Date().getFullYear() }} by Jer Liaw All rights reserved.</p>
+        </footer>
+
+		<div v-if="showModal" class="modal-overlay" @click="closeModal">
+			<div class="modal-content" @click.stop>
+				<span class="modal-close" @click="closeModal">&times;</span>
+				<img :src="selectedBook.cover" :alt="selectedBook.title" class="modal-book-cover">
+				<h2 class="modal-book-title">{{ selectedBook.title }}</h2>
+				<p class="modal-book-description" v-html="selectedBook.fullDescription"></p>
+			</div>
+		</div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+    const { createApp } = Vue
+
+    createApp({
+        data() {
+            return {
+                activePage: 'books',
+                showModal: false,
+                selectedBook: null,
+                selectedLanguage: 'en',
+                menuActive: false,
+                menuItems: [
+                    { id: 'home', name: 'Home', link: 'index.html' },
+                    { id: 'portfolio', name: 'Portfolio', link: 'portfolio.html' },
+                    { id: 'about', name: 'About', link: 'about.html' },
+                    { id: 'books', name: 'Books', link: 'books.html' },
+                    { id: 'blog', name: 'Blog', link: 'blog.html' },
+                    { id: 'contact', name: 'Contact', link: 'contact.html' },
+                ],
+                books: [
+                    {
+                        id: 1,
+                        title: "Data Science and Regression Analysis",
+                        description: "A guide to mastering regression analysis with feature selection and advanced techniques.",
+                        fullDescription: "In the rapidly evolving field of data science, regression analysis remains a crucial tool for exploring and understanding data relationships. 'Data Science and Regression Analysis' will guide you through the core techniques and applications of regression analysis, helping you master the complete process from feature selection to model training.<br><br>Whether you are a beginner in data science or an experienced professional, this book provides rich practical experience and theoretical knowledge. Covering a variety of regression models including Support Vector Regression, LASSO Regression, Ridge Regression, ElasticNet Regression, and more, it details how to select and adjust these models for real-world applications.<br><br>In addition to theoretical explanations and techniques, the book offers numerous practical examples and Python code. Particularly in Chapter 5, you will learn how to use different regression models to predict the profits of startups, analyze how to avoid the dummy variable trap, and use genetic algorithms for feature selection. These practical experiences will help you tackle various challenges in your work and enhance the accuracy of your regression analysis.<br><br>Chapter 6 looks ahead to future trends in regression analysis, exploring the latest research findings and technological developments, and sharing successful case studies to provide you with cutting-edge insights and inspiration.<br><br>This book is an essential guide for learning data science and regression analysis, and an ideal reference for improving professional skills. Whether your goal is to master regression analysis techniques or to enhance the predictive performance of data models, 'Data Science and Regression Analysis' will be your reliable companion in exploring the world of data.",
+                        cover: "img/Data-Science-and-Regression-Analysis.png",
+                        link: "#"
+                    },
+                    {
+                        id: 2,
+                        title: "to be continued",
+                        description: "Exploring the potential of deep learning",
+                        fullDescription: "Stay tuned as we will take you into the world of deep learning, learn how to use neural networks to solve complex problems, and apply them to various real-life scenarios.",
+                        cover: "img/home-img23.jpg",
+                        link: "#"
+                    },
+                    {
+                        id: 3,
+                        title: "to be continued",
+                        description: "We are preparing more exciting content about artificial intelligence and data analysis.",
+                        fullDescription: "This website will be continuously updated to provide more high-quality content and resources related to artificial intelligence and data analysis. Please continue to pay attention to our latest developments and publications!",
+                        cover: "img/home-img24.jpg",
+                        link: "#"
+                    },
+                    {
+                        id: 4,
+                        title: "to be continued",
+                        description: "Explore the infinite possibilities of AI technology.",
+                        fullDescription: "The development of artificial intelligence is changing our lives. Stay tuned for our in-depth analysis of the future of AI and learn how to apply AI technology in different fields.",
+                        cover: "img/home-img25.jpg",
+                        link: "#"
+                    }
+                ]
+            }
+        },
+        methods: {
+            initAnimations() {
+                gsap.registerPlugin(ScrollTrigger);
+
+                gsap.from('.blog-header', {
+                    opacity: 0,
+                    y: 50,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: '.blog-header',
+                        start: 'top bottom-=100',
+                    }
+                });
+
+                gsap.utils.toArray('.blog-post').forEach((post, index) => {
+                    gsap.from(post, {
+                        opacity: 0,
+                        y: 50,
+                        duration: 0.8,
+                        delay: index * 0.2,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: post,
+                            start: 'top bottom-=50',
+                        }
+                    });
+                });
+				gsap.from(".books-hero-content h1", { 
+					opacity: 0, 
+					y: -20,
+					duration: 1, 
+					delay: 0.3 
+				});
+
+				gsap.from(".book-item", { 
+					opacity: 0, 
+					duration: 1, 
+					stagger: 0.2, 
+					delay: 1 
+				});
+            },
+            showFullArticle(post) {
+                this.currentArticle = post;
+                this.currentView = 'fullArticle';
+                window.scrollTo(0, 0);
+                this.$nextTick(() => {
+                    gsap.from('.full-article', {
+                        opacity: 0,
+                        y: 50,
+                        duration: 0.8,
+                        ease: "power3.out"
+                    });
+                });
+            },
+            backToBlogList() {
+                this.currentView = 'blogList';
+                this.currentArticle = null;
+                window.scrollTo(0, 0);
+                this.$nextTick(() => {
+                    this.initAnimations();
+                });
+            },
+            changePage(pageNumber) {
+                this.currentPage = pageNumber;
+                window.scrollTo(0, 0);
+                this.$nextTick(() => {
+                    this.initAnimations();
+                });
+            },
+            toggleMenu() {
+                this.menuActive = !this.menuActive;
+            },
+            setActivePage(pageId) {
+                this.activePage = pageId;
+                this.menuActive = false;
+            },
+            changeLanguage() {
+                if (this.selectedLanguage === 'en') {
+                    window.location.href = 'books.html';
+                } else if (this.selectedLanguage === 'zh') {
+                    window.location.href = 'books-zh.html';
+                }
+            },
+            openModal(book) {
+                this.selectedBook = book;
+                this.showModal = true;
+                document.body.style.overflow = 'hidden';
+            },
+            closeModal() {
+                this.showModal = false;
+                this.selectedBook = null;
+                document.body.style.overflow = 'auto';
+            }
+        },
+        mounted() {
+            this.$nextTick(() => {
+                this.initAnimations();
+            });
+        }
+    }).mount('#app')
+</script>
+
+</body>
+</html>

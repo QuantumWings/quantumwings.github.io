@@ -1,0 +1,728 @@
+<html><head><base href="https://quantumwings.github.io/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professional Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+<style>
+    :root {
+        --primary-color: #2C3E50;
+        --secondary-color: #ECF0F1;
+        --accent-color: #E67E22;
+        --text-color: #34495E;
+        --background-color: #FDFEFE;
+    }
+    
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Montserrat', sans-serif;
+        color: var(--text-color);
+        background-color: var(--background-color);
+        scroll-behavior: smooth;
+    }
+    
+    header {
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 15px 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    header.scrolled {
+        background-color: rgba(255, 255, 255, 0.98);
+    }
+    
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .logo {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+    
+    .nav-links {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-links li {
+        margin-left: 30px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .nav-links a {
+        text-decoration: none;
+        color: var(--primary-color);
+        font-weight: 400;
+        transition: color 0.3s ease;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    .nav-links a:hover {
+        color: var(--accent-color);
+    }
+    
+    .portfolio {
+        padding-top: 100px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .portfolio h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 48px;
+        text-align: center;
+        margin-bottom: 40px;
+        color: var(--primary-color);
+    }
+    
+    .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        padding: 0 20px;
+    }
+    
+    .portfolio-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .portfolio-item:hover {
+        transform: translateY(-5px);
+    }
+    
+    .portfolio-item img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .portfolio-item:hover img {
+        transform: scale(1.1);
+    }
+    
+    .portfolio-item-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.7);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .portfolio-item:hover .portfolio-item-overlay {
+        opacity: 1;
+    }
+    
+    .portfolio-item-title {
+        color: white;
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 10px;
+		text-align: center;
+		word-wrap: break-word;
+    }
+    
+    .portfolio-item-category {
+        color: var(--accent-color);
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+    
+    .portfolio-item-buttons {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .portfolio-item-button {
+        padding: 8px 15px;
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .portfolio-item-button:hover {
+        background-color: #d35400;
+    }
+    
+    .filter-buttons {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+    
+    .filter-button {
+        padding: 10px 20px;
+        margin: 0 10px;
+        background-color: var(--secondary-color);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .filter-button.active, .filter-button:hover {
+        background-color: var(--accent-color);
+        color: white;
+    }
+    
+    footer {
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        text-align: center;
+        padding: 20px 0;
+        margin-top: 60px;
+    }
+    
+    .social-icons {
+        margin-bottom: 15px;
+    }
+    
+    .social-icons a {
+        color: var(--secondary-color);
+        font-size: 20px;
+        margin: 0 10px;
+        transition: color 0.3s ease;
+    }
+    
+    .social-icons a:hover {
+        color: var(--accent-color);
+    }
+	
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1001;
+    }
+    
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 80%;
+        max-height: 80%;
+        overflow: auto;
+    }
+    
+    .modal-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        color: white;
+        cursor: pointer;
+    }
+	
+	.language-selector {
+        display: flex;
+        align-items: center;
+        position: relative;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+    }
+    
+    .language-selector select {
+        appearance: none;
+        background-color: transparent;
+        border: none;
+        padding: 5px 20px 5px 5px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--primary-color);
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    
+    .language-selector::after {
+        content: '\25BC';
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        transform: translateY(-50%);
+        pointer-events: none;
+        font-size: 12px;
+        color: var(--primary-color);
+    }
+	
+	.menu-toggle {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+    
+    @media (max-width: 1024px) {
+        .blog-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 200px;
+            padding: 20px;
+        }
+        
+        .nav-links.active {
+            display: flex;
+        }
+        
+        .nav-links li {
+            margin: 10px 0;
+        }
+        
+        .menu-toggle {
+            display: block;
+        }
+        
+		.portfolio h1 {
+			font-family: 'Cormorant Garamond', serif;
+			font-size: 36px;
+			text-align: center;
+			margin-bottom: 40px;
+			color: var(--primary-color);
+			opacity: 0;
+			transform: translateY(50px);
+		}
+        
+        .portfolio-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .filter-buttons {
+            flex-wrap: wrap;
+        }
+        
+        .filter-button {
+            margin: 5px;
+        }
+    }
+</style>
+</head>
+<body>
+    <div id="app">
+        <header :class="{ 'scrolled': scrolled }">
+            <nav>
+                <div class="logo">JER LIAW</div>
+                <ul class="nav-links" :class="{ 'active': menuActive }">
+                    <li v-for="item in menuItems" :key="item.id">
+                        <a :href="item.link" @click="setActivePage(item.id)">{{ item.name }}</a>
+                    </li>
+                    <li class="language-selector">
+                        <select v-model="selectedLanguage" @change="changeLanguage">
+                            <option value="en">EN</option>
+                            <option value="zh">中文</option>
+                        </select>
+                    </li>
+                </ul>
+                <div class="menu-toggle" @click="toggleMenu">&#9776;</div>
+            </nav>
+        </header>
+
+        <section class="portfolio">
+            <h1 ref="portfolioTitle">Professional Portfolio</h1>
+            
+            <div class="filter-buttons">
+                <button 
+                    v-for="category in categories" 
+                    :key="category"
+                    @click="filterCategory = category"
+                    :class="['filter-button', { active: filterCategory === category }]"
+                >
+                    {{ category }}
+                </button>
+            </div>
+            
+            <div class="portfolio-grid">
+                <div 
+                    v-for="(item, index) in filteredPortfolioItems" 
+                    :key="index" 
+                    class="portfolio-item"
+                >
+                    <img :src="item.image" :alt="item.title">
+                    <div class="portfolio-item-overlay">
+                        <h3 class="portfolio-item-title">{{ item.title }}</h3>
+                        <p class="portfolio-item-category">{{ item.category }}</p>
+                        <div class="portfolio-item-buttons">
+                            <button @click="openModal(item)" class="portfolio-item-button">View</button>
+                            <button v-if="item.isProgram" @click="openProgram(item)" class="portfolio-item-button">Demo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; {{ new Date().getFullYear() }} by JER LIAW All rights reserved.</p>
+        </footer>
+
+		<div v-if="selectedItem" class="modal" @click="closeModal">
+			<div class="modal-content" @click.stop>
+				<span class="modal-close" @click="closeModal">&times;</span>
+				<img :src="selectedItem.image" :alt="selectedItem.title" style="max-width: 100%;">
+				<h2>{{ selectedItem.title }}</h2>
+				<p>{{ selectedItem.category }}</p>
+				<p v-html="selectedItem.description"></p>
+			</div>
+		</div>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            filterCategory: 'All',
+            selectedItem: null,
+            menuActive: false,
+            scrolled: false,
+            selectedLanguage: 'en',
+            menuItems: [
+                { id: 'home', name: 'Home', link: 'index.html' },
+                { id: 'portfolio', name: 'Portfolio', link: 'portfolio.html' },
+                { id: 'about', name: 'About', link: 'about.html' },
+                { id: 'books', name: 'Books', link: 'books.html' },
+                { id: 'blog', name: 'Blog', link: 'blog.html' },
+                { id: 'contact', name: 'Contact', link: 'contact.html' },
+            ],
+            categories: ['All', 'AI & Machine Learnin', 'Advanced Computing', 'Innovation & Experimentation', 'Networking & Data Centers', 'Information Security', 'Enterprise Solutions', 'Technology Integration'],
+            portfolioItems: [
+                { 
+                    image: 'img/Classification-of-Ants-vs-Bee.jpg', 
+                    title: 'Classification of Ants vs Bee', 
+                    category: 'AI & Machine Learnin',
+                    description: 'This is a web-based image classification application aimed at identifying ants and bees. Ants and bees play key roles in ecosystems. Not only are they important pollinators, they also play an important role in biodiversity maintenance, agricultural production and ecological balance. This program leverages deep learning models to provide convenient tools for ecological research, education, and citizen science through a user-friendly interface.<br><br>Deep learning techniques, especially convolutional neural networks (CNN), have demonstrated excellent performance in image classification tasks. This project uses ONNX Runtime Web for model inference and demonstrates how to implement efficient machine learning applications in the browser. The development and deployment of this web application represents an important milestone in the convergence of modern technologies, demonstrating how to seamlessly integrate complex machine learning models into a user-friendly web interface. This integration not only reflects technological progress, but also highlights the huge potential of interdisciplinary cooperation in solving practical problems. From a technical perspective, this application successfully integrates deep learning, web development, and user experience design. The use of the ONNX (Open Neural Network Exchange) format as the medium for model deployment reflects the emphasis on open standards and cross-platform compatibility. This not only simplifies the model deployment process, but also lays the foundation for future model updates and extensions. At the same time, WebAssembly technology is used to run ONNX Runtime, which significantly improves the computing performance in the browser, allowing complex image processing and model reasoning to be performed in real time, which is crucial to providing a smooth user experience. In terms of design concept, the modern Web design principle of "user-centered" is reflected in the application. The intuitive drag-and-drop interface, real-time visual feedback, and clear result display are all designed to lower the user threshold and enable complex artificial intelligence technology to be widely accepted and used. This design is not only suitable for professional researchers, but also for the general public, embodying the concept of democratization of science and technology and popularization of knowledge. From a scientific perspective, this application is not only a technology demonstration, but also a potential scientific research tool. It provides ecologists, biologists, and agricultural experts with a convenient tool for quickly identifying and classifying insects. This instant classification capability can greatly improve the efficiency of field surveys and provide strong support for areas such as biodiversity research, ecosystem monitoring, and agricultural pest management. The future prospects and development potential of this application are huge. Extending the model to support multi-class classification is a natural progression. This involves not only adding more insect species, but also improving model architecture to handle more complex classification tasks. This may require the adoption of more advanced deep learning techniques, such as transfer learning or few-shot learning, to effectively handle the identification of rare species.<br><br>Achieving incremental learning of models is another key development direction. This involves setting up a feedback loop system that allows users to provide feedback on classification results and use this information to continuously improve the model. This not only improves the accuracy of the model, but also allows the model to adapt to new environmental and species changes, which is particularly important for long-term ecological monitoring. Adding batch processing capabilities will greatly improve the practicality of the application, especially for scientific research projects that require processing large amounts of images. This may require redesigning the back-end architecture, which may involve using distributed computing techniques to process large-scale data. Integrating geotagging capabilities will open up new possibilities for ecological surveys and data collection. This includes not only including location information in identification results, but may also involve integration with geographic information systems (GIS) for generating species distribution maps and performing spatial analysis. Developing supporting mobile applications is an inevitable trend to meet the needs of modern scientific research. This not only needs to take into account the technical challenges of offline recognition, but also needs to address resource constraints on mobile devices, which may require the adoption of model compression or edge computing technology. With the rapid development of artificial intelligence technology, more advanced technologies may be integrated in the future, such as generative adversarial networks (GANs) for data enhancement, or reinforcement learning to optimize the decision-making process of the model. At the same time, considering the long-term and global nature of ecological research, establishing a cloud-based collaboration platform that allows global researchers to share data and models will greatly promote the development of this field.<br><br>The significance of this project is not limited to technological innovation or scientific research. It represents a new way of thinking about how to use advanced technology to solve practical problems, especially in areas related to human well-being such as environmental protection and ecological balance. Through continuous optimization and expansion, this application has the potential to become a bridge between technology and nature, professional and public, and contribute to building a more sustainable and environmentally friendly future. This Web application is not only a display of technology and science, but also a basic platform full of potential, which is expected to have a profound impact in ecological research, environmental monitoring, agricultural management and other fields. Although its development path is full of challenges, it also contains unlimited possibilities, inspiring how scientific and technological innovation can contribute to solving practical problems and promoting sustainable development.',
+                    isProgram: true,
+                    programLink: 'https://quantumwings.github.io/Classification-of-Ants-vs-Bee/'
+                },
+                { 
+                    image: 'img/SVM-3D-Iris-Classifier.jpg', 
+                    title: 'SVM 3D Iris Classifier', 
+                    category: 'AI & Machine Learnin',
+                    description: 'This project is an interactive 3D visualization tool that demonstrates the classification process of the iris flower dataset and uses the support vector machine (SVM) algorithm to present decision boundaries. This tool is designed to help users understand how SVM classifiers distinguish different iris species and characteristics in three-dimensional space.<br><br>This web application uses SVM for classification. SVM is a powerful algorithm that can be used for both linear and non-linear classification. SVM works by finding the hyperplane in the feature space that best separates different classes. In 3D visualization, this hyperplane is represented by a plane.<br><br>This 3D Iris flower classifier visualization serves as an interactive tool to help understand SVM classification concepts. It shows how different iris species and their characteristics can be separated in 3D space, laying the foundation for understanding more complex machine learning concepts and their application to real-world datasets such as the iris dataset. Although simplified for visualization purposes, it provides a foundation for understanding more complex machine learning concepts and their application to real-world datasets such as the Iris dataset.',
+                    isProgram: true,
+                    programLink: 'https://quantumwings.github.io/SVM-3D-Iris-Classifier/'
+                },
+                { 
+                    image: 'img/interactive-iris-dataset-scatterplot-matrix.jpg', 
+                    title: 'Interactive Iris Dataset Scatterplot Matrix', 
+                    category: 'AI & Machine Learnin',
+                    description: 'Iris Dataset Interactive Analysis Tool: An innovative application that combines data science, machine learning, and visualization. In the fields of data science and machine learning, the Iris Dataset has long been a classic case for introductory learning and algorithm testing. This innovative web application brings a new analytical perspective to this famous data set. It is not just a simple display of raw data, but a clever combination of data visualization, machine learning algorithms and interactive design, providing users with a powerful tool for in-depth understanding of data structures and exploration of classification algorithms.<br><br>The core goals of this app are multifaceted. First, it visually displays the relationship and distribution between the four key characteristics of iris (sepal length, sepal width, petal length, petal width) through a scatter plot matrix. This visualization method allows users to quickly capture patterns and trends in the data. A variety of commonly used machine learning classification algorithms have been applied, including decision trees, random forests, support vector machines (SVM), and K nearest neighbors (KNN). Users can easily switch between different algorithms and observe the difference in their performance on the iris classification problem in real time. This comparison not only helps to understand the characteristics of various algorithms, but also provides an intuitive reference for algorithm selection. Furthermore, the application also provides a wealth of model evaluation indicators, such as accuracy, precision, recall, etc., and helps users comprehensively evaluate the classification effects of different algorithms through the visualization of confusion matrices. Particularly worth mentioning is the visualization function of decision boundaries, which greatly enhances users&apos understanding of the working principles of various classification algorithms.<br><br>From a technical perspective, this app represents the perfect fusion of front-end technology and data science. It mainly builds a responsive user interface based on Vue.js, and uses powerful visualization libraries such as D3.js and Plotly.js to achieve complex data display. Interestingly, the developers also implemented a simplified version of the machine learning algorithm on the front end, demonstrating the possibility of lightweight machine learning in the browser. In terms of interaction design, the application makes full use of modern Web technology to implement rich interactive functions such as chart zooming, data point highlighting, and real-time parameter adjustment. These details greatly enhance the user experience and make the complex data analysis process vivid and interesting. At the same time, the application&aposs responsive design ensures that it runs well on a variety of devices, further expanding its scope of application. There is much more to this application than the analysis of a single data set. It provides an excellent case for data visualization research, demonstrating how to enhance the understanding of multi-dimensional data through interactive design. It is a valuable tool for machine learning education, helping beginners intuitively understand basic classification algorithms and model evaluation methods. In terms of feature engineering, users can gain a deep understanding of the importance of feature selection by observing the impact of different feature combinations on classification results. The visualization of decision boundaries and performance indicators provides new ideas for model interpretive research.<br><br>This Iris dataset analysis tool represents an innovative combination of data science, machine learning, and interactive visualization. It not only brings a new analytical perspective to the classic iris data set, but also sets an excellent example for similar data analysis and visualization projects. Whether it is for data science education or actual data analysis work, this tool has shown great potential and is expected to play an important role in promoting the popularization and application of data science knowledge.',
+                    isProgram: true,
+                    programLink: 'https://quantumwings.github.io/Interactive-Iris-Dataset-Scatterplot-Matrix/'
+                },
+                { 
+                    image: 'img/Decision-Tree-Prediction.jpg', 
+                    title: 'Decision Tree Prediction', 
+                    category: 'AI & Machine Learnin',
+                    description: 'Interactive Decision Tree in the Machine Learning Era: The Perfect Combination of Science and Technology In this data-driven era, machine learning technology is changing the way we understand and analyze information. Among them, the decision tree algorithm, as one of the basic concepts of machine learning, has been widely used in many fields. Recently, an innovative web application transformed this powerful concept into an intuitive, interactive visual experience, providing a great opportunity to gain insight into how decision trees work. The main purpose of this web-based decision tree visualization tool is to demonstrate the workings of the decision tree algorithm through a simple and interesting example - predicting the suitability of outdoor activities based on weather conditions. In this way, it not only shows the user the structure and logic of a decision tree, but also provides a foundation for understanding more complex machine learning concepts. From a scientific perspective, this application has multiple implications. First, it transforms abstract mathematical concepts into visual interactive experiences, helping to deepen people&aposs understanding of decision tree algorithms. Secondly, it shows how to simplify the complex decision-making process into a series of binary choices, which is the core idea of ​​the decision tree algorithm. Finally, it emphasizes the importance of data-driven decision-making by allowing users to enter different weather conditions and observe the results instantly.<br><br> From a technical perspective, this application incorporates a variety of modern web technologies. It uses HTML5, CSS3 and JavaScript as its foundation, uses the D3.js library for data visualization, GSAP for smooth animation effects, and VANTA.NET to create dynamic backgrounds. This combination of technologies not only ensures a good user experience, but also demonstrates how to transform complex data structures into intuitive visual representations. The decision tree structure of the application includes the weather outlook (sunny, cloudy, rainy) as the root node, humidity and wind as internal nodes, and the final prediction (whether it is suitable for the activity) as leaf nodes. Although this structure simplifies the actual weather decision-making process, it accurately reflects the basic principles of the decision tree. By allowing users to select different weather conditions and observe the dynamics of decision paths, this application provides a vivid way to understand how decision trees work. It not only shows how to make decisions based on different inputs, but also visually presents the logical reasoning for each step in the decision-making process. Overall, this web application successfully combines scientific principles, educational value, and technological innovation. It is not only a learning tool, but also a model for the integration of machine learning, data visualization and web development technologies. In this way, it provides us with a window into the workings of machine learning algorithms and inspires further exploration of this increasingly important area of ​​technology.',
+                    isProgram: true,
+                    programLink: 'https://quantumwings.github.io/Decision-Tree-Prediction/'
+                },
+                { 
+                    image: 'img/Decision-Tree-Prediction-dark-background.jpg', 
+                    title: 'Decision Tree Prediction dark background', 
+                    category: 'AI & Machine Learnin',
+                    description: 'Interactive Decision Tree in the Machine Learning Era: The Perfect Combination of Science and Technology In this data-driven era, machine learning technology is changing the way we understand and analyze information. Among them, the decision tree algorithm, as one of the basic concepts of machine learning, has been widely used in many fields. Recently, an innovative web application transformed this powerful concept into an intuitive, interactive visual experience, providing a great opportunity to gain insight into how decision trees work. The main purpose of this web-based decision tree visualization tool is to demonstrate the workings of the decision tree algorithm through a simple and interesting example - predicting the suitability of outdoor activities based on weather conditions. In this way, it not only shows the user the structure and logic of a decision tree, but also provides a foundation for understanding more complex machine learning concepts. From a scientific perspective, this application has multiple implications. First, it transforms abstract mathematical concepts into visual interactive experiences, helping to deepen people&aposs understanding of decision tree algorithms. Secondly, it shows how to simplify the complex decision-making process into a series of binary choices, which is the core idea of ​​the decision tree algorithm. Finally, it emphasizes the importance of data-driven decision-making by allowing users to enter different weather conditions and observe the results instantly.<br><br> From a technical perspective, this application incorporates a variety of modern web technologies. It uses HTML5, CSS3 and JavaScript as its foundation, uses the D3.js library for data visualization, GSAP for smooth animation effects, and VANTA.NET to create dynamic backgrounds. This combination of technologies not only ensures a good user experience, but also demonstrates how to transform complex data structures into intuitive visual representations. The decision tree structure of the application includes the weather outlook (sunny, cloudy, rainy) as the root node, humidity and wind as internal nodes, and the final prediction (whether it is suitable for the activity) as leaf nodes. Although this structure simplifies the actual weather decision-making process, it accurately reflects the basic principles of the decision tree. By allowing users to select different weather conditions and observe the dynamics of decision paths, this application provides a vivid way to understand how decision trees work. It not only shows how to make decisions based on different inputs, but also visually presents the logical reasoning for each step in the decision-making process. Overall, this web application successfully combines scientific principles, educational value, and technological innovation. It is not only a learning tool, but also a model for the integration of machine learning, data visualization and web development technologies. In this way, it provides us with a window into the workings of machine learning algorithms and inspires further exploration of this increasingly important area of ​​technology.',
+                    isProgram: true,
+                    programLink: 'https://quantumwings.github.io/Decision-Tree-Prediction-dark-background/'
+                },
+                { 
+                    image: 'img/Advance-Confusion-Matrix-Controls.jpg', 
+                    title: 'Advance Confusion Matrix Controls', 
+                    category: 'AI & Machine Learnin',
+                    description: 'Advanced Confusion Matrix Console: A powerful tool for machine learning research In today&aposs data-driven scientific research environment, intuitive understanding of complex machine learning concepts has become increasingly important. To meet this need, the Advanced Confusion Matrix Console emerged, providing researchers with a powerful and flexible tool to deepen their understanding of classification problems, accelerate research processes, and promote innovative thinking. The scientific purpose of this console is mainly reflected in the following aspects: First, it helps researchers intuitively understand the core concepts in machine learning through visualization and interactive functions.<br><br>Users can adjust parameters in real time and immediately see the impact of these changes on model performance. This instant feedback mechanism greatly enhances the learning effect. Secondly, it provides a unified platform to compare different machine learning algorithms, allowing researchers to quickly evaluate and select the model that is most suitable for a specific problem. In addition, through feature selection and visualization functions, researchers can deeply explore the impact of data features on classification results, thereby gaining deep insights into the nature of the data. From a scientific point of view, the value of this tool is mainly reflected in the following aspects: It greatly improves the efficiency of parameter sensitivity analysis, allowing researchers to quickly observe and understand the impact of parameter changes on model performance. This not only helps to optimize the model, but also improves the understanding of the internal mechanism of the model. In addition, the console&aposs configuration saving and sharing functions ensure the reproducibility of experiments, a key element in scientific research. As an educational tool, it also plays an important role in training the next generation of machine learning researchers, helping students better understand and master complex machine learning concepts. From a technical background, this console integrates a variety of advanced Web technologies and machine learning algorithms. It uses HTML5, CSS3 and JavaScript to build a rich user interface, utilizes advanced data visualization libraries such as Plotly.js to present 3D graphics, and implements complex calculation functions through mathematical libraries such as Math.js. In terms of machine learning algorithms, it not only includes traditional support vector machines (SVM) and logistic regression, but also incorporates more modern algorithms such as random forests and gradient boosting trees, providing users with a wide range of choices.<br><br>This tool has a very wide range of applications and can be applied to almost any research field involving classification problems. In medical research, it can be used to assist the development and evaluation of diagnostic models; in the financial field, it can assist in the construction and optimization of risk assessment models; in the field of natural language processing, it can help improve text classification algorithms. Regardless of the field, this tool can help researchers understand their data and models faster and more deeply. Overall, the Advanced Confusion Matrix Console provides a comprehensive, flexible and powerful tool for machine learning research. It not only helps to deepen the understanding of classification problems, but also significantly accelerates the research process and stimulates innovative thinking. With the in-depth application of data science and machine learning in various fields, such tools will undoubtedly play an increasingly important role in promoting scientific research and technological innovation.',
+                    isProgram: true,
+                    programLink: 'https://quantumwings.github.io/Advance-Confusion-Matrix-Controls/'
+                },
+                { 
+                    image: 'img/Library-Book-Search-System.jpg', 
+                    title: 'Library Book Search System', 
+                    category: 'AI & Machine Learnin',
+                    description: 'In today&aposs digital age, libraries are faced with the challenge of managing and retrieving large amounts of information. To address this challenge, an innovative interactive web application was developed to provide in-depth analysis and optimization of the performance of library book search systems. This tool not only provides valuable insights to librarians and information science researchers, but also provides system developers with a powerful platform to improve search algorithms. The main purpose of this application is to provide an intuitive and interactive platform that allows users to explore and understand various performance indicators of library book search systems. By allowing users to adjust different parameters such as correlation threshold, efficiency slope, and search precision, this application tool can demonstrate in real time how these factors affect the overall efficiency and accuracy of the system. The significance lies in its ability to transform complex information retrieval and classification concepts into visual forms. Not only does this help technical professionals better understand and optimize the system, it also makes it easier for library staff with non-technical backgrounds to grasp these key concepts. By providing instant feedback and visual performance metrics, users can quickly identify system strengths and potential areas for improvement.<br><br>From a technical perspective, this application incorporates several advanced web technologies and data visualization tools. It is built using HTML5, CSS3 and JavaScript, ensuring cross-platform compatibility and responsive design. The core interactive charting function is implemented through the Plotly.js library, which allows complex data to be presented in a vivid and intuitive way. The back-end logic of the application adopts the Model-View-Controller (MVC) architecture, a design pattern that improves the maintainability and scalability of the code. The mathematical calculation part uses the Math.js library to ensure high-precision numerical operations, especially when dealing with complex probability and statistical models. In addition to its analytical capabilities, this tool also has important educational value. It provides a practical platform for library and information science students, library staff, and information retrieval researchers to gain a deeper understanding of how search algorithms work. Users can adjust parameters and observe changes in different indicators (such as precision, recall, F1 score, etc.) to intuitively understand the significance of these concepts in practical applications. For system developers, this tool provides an ideal environment to test and optimize search algorithms. They can simulate different search scenarios and evaluate how algorithms perform under various conditions to make more informed design decisions.<br><br>This interactive library search system performance analysis tool represents the perfect marriage of information science, data visualization, and web technology. Not only is it a powerful analytical tool, it is also an excellent educational resource. By providing an intuitive visual interface and real-time feedback, it makes complex information retrieval concepts easier to understand and apply. Whether for librarians, information science researchers, or systems developers, this tool provides valuable insights and practical opportunities to help drive continuous improvement and innovation in library information services.',
+                    isProgram: true,
+                    programLink: 'https://quantumwings.github.io/Library-Book-Search-System/'
+                },
+                { 
+                    image: 'img/SVM-Confusion-Matrix-Controls.jpg', 
+                    title: 'SVM Confusion Matrix Controls', 
+                    category: 'AI & Machine Learnin',
+                    description: 'Support Vector Machine (SVM) Confusion Matrix Visualization Application: An innovative platform integrating science, education and technology: Today with the rapid development of machine learning and artificial intelligence, we are facing an important challenge: how to make complex algorithms and models more transparent , easy to understand, and can be understood and applied by a wider group of people. The Support Vector Machine (SVM) confusion matrix web application is an innovative platform born to meet this challenge. It cleverly integrates scientific principles, educational goals and modern web technology to provide learners, researchers and practitioners with A unique interactive learning environment.<br><br>Support vector machine (SVM) is a pearl in the field of machine learning, proposed by Vladimir Vapnik and Corinna Cortes in 1995. As a powerful supervised learning model, SVM performs well in classification and regression tasks. Its core idea is to find the best classification hyperplane in high-dimensional feature space and achieve accurate classification by maximizing the interval between different categories. The scientific purpose of SVM confusion matrix web application is mainly reflected in three aspects:<br><br>1. Deepen the understanding of SVM principles: Through intuitive 3D visualization, this application enables users to clearly observe how SVM distinguishes different categories of data points in high-dimensional space. This visualization method greatly enhances the understanding of SVM decision boundaries and support vector concepts.<br><br>2. Explore classification performance metrics: The application allows users to dynamically adjust the values ​​of true positives (TP), true negatives (TN), false positives (FP), and false negatives (FN) and instantly observe various performance metrics such as accuracy , precision rate, recall rate, etc.) changes. This provides valuable insights into understanding the relationships between different metrics and their significance in practical applications.<br><br>3. Simulate real-world data distribution: By allowing users to adjust the number and distribution of data points, the application simulates various real-world data scenarios to help users understand the performance of SVM under different data conditions.<br><br>From a scientific point of view, this application is not just an educational tool but an experimental platform to explore the behavior of machine learning models. It provides researchers with a flexible environment to quickly test hypotheses, observe model performance under various conditions, and intuitively understand the model&aposs strengths and limitations.<br><br>This SVM confusion matrix web application not only reflects innovative thinking on machine learning education, but also represents a new trend in the integration of technology and education. By transforming complex mathematical models into interactive visual experiences, it provides learners with a window to intuitively understand the working principles of SVM, while also providing a flexible experimental platform for researchers and practitioners. As artificial intelligence technology increasingly penetrates into various fields, this application of integrating scientific principles, educational goals, and advanced technologies will play an increasingly important role in promoting the democratization of AI education, improving model interpretability, and promoting responsible AI development. role. It not only helps cultivate the next generation of AI talents, but also provides new possibilities for interdisciplinary collaboration and innovation.',
+                    isProgram: true,
+                    programLink: 'https://quantumwings.github.io/SVM-Confusion-Matrix-Controls/'
+                },
+                { 
+                    image: 'img/AI-Development.jpg', 
+                    title: 'AI Development', 
+                    category: 'AI & Machine Learnin',
+                    description: 'In today&quot;s rapidly evolving information era, artificial intelligence (AI), machine learning (ML), and deep learning (DL) technologies are becoming key to enhancing competitive information capabilities. I am currently focused on in-depth research of these cutting-edge technologies, aiming to improve understanding and application of AI, and explore how these technologies can be applied to real-world business scenarios.<br><br>Research Focus in AI Development:<br>Exploration of Cutting-Edge Technologies:<br>Ongoing in-depth research into the latest developments in artificial intelligence, machine learning, and deep learning. Focused on understanding and mastering the latest technological trends and application cases, and exploring their practical applications.<br><br>Machine Learning Model Experiments:<br>Actively designing and experimenting with machine learning models, including supervised and unsupervised learning. Investigating various algorithms and techniques to address specific business challenges.<br><br>Application of Deep Learning Technologies:<br>In-depth study of deep learning technologies and their application in areas such as image recognition and natural language processing. Experimenting with designing and training deep neural networks to understand their effectiveness in handling complex data.<br><br>Data Processing and Feature Engineering:<br>Researching data processing and feature engineering techniques. Committed to extracting useful features from raw data to improve model accuracy and performance.<br><br>Model Evaluation and Optimization:<br>Proficient in model evaluation techniques, including cross-validation and performance metrics. Focused on the optimization process of models to enhance their performance through parameter adjustments.<br><br>Real-Time Systems and Applications:<br>Exploring the development of real-time AI systems and researching how to process and analyze real-time data. Designing efficient system architectures to meet real-time application requirements.<br><br>AI System Integration:<br>Understanding how to integrate AI solutions into existing business systems. Researching how to ensure that AI models and systems work in synergy to enhance overall intelligence levels.<br><br>Open Source Contributions and Technical Sharing:<br>Actively engaging in the open-source community, sharing research results and technical practices. Showcasing research progress and experiments on platforms like GitHub to foster technical exchange and collaboration.<br><br>Research Achievements and Progress:<br>In-Depth Understanding of AI Technologies:<br>Gained a deeper understanding of artificial intelligence technologies through continuous research and experimentation, and explored various application scenarios.<br><br>Model Experiments and Improvements:<br>Conducted multiple experiments with machine learning and deep learning models, enhancing the understanding of different algorithms and techniques.<br><br>Technological Application Exploration:<br>Performed technology application experiments in areas such as image recognition and natural language processing, understanding their effects in real-world business contexts.<br><br>Data Processing and Feature Engineering:<br>Researched data processing and feature engineering techniques, achieving improvements in model performance.<br><br>Open Source Contributions and Sharing:<br>Shared research results and technical experiments on GitHub, Shared research results and technical experiments on GitHub, facilitating communication with other technologists.<br><br>My expertise in AI development is dedicated to advancing the understanding of artificial intelligence technologies and exploring their application potential in real-world business scenarios. I look forward to applying the knowledge gained through my research to more challenging projects and continuing to drive professional growth in this field.',
+                    isProgram: false,
+                },
+                { 
+                    image: 'img/Basic-particle-interactive-control-panel.jpg', 
+                    title: 'Basic particle interactive control panel', 
+                    category: 'Advanced Computing',
+                    description: 'At the intersection of scientific research and technological innovation, the particle system interactive simulator serves as a powerful and flexible tool, opening a new window for researchers to explore complex systems. This web-based application is not only a visually engaging display, but also a platform with deep scientific significance and research value. The core purpose of the particle system interactive simulator is to provide scientific researchers with an intuitive and interactive environment to study and understand the behavior of complex systems. The scientific significance of this tool is reflected in multiple aspects, covering a wide range of research fields and application scenarios. The simulator provides a visual experimental platform for complex system dynamics research. By adjusting parameters such as particle number, speed and connectivity, researchers can observe how these factors affect the behavior of the overall system. This has important implications for understanding the dynamics of complex systems ranging from physical systems to ecosystems to social networks.<br><br>In terms of network theoretical research, this simulator provides a place for practice. By changing the connection distance between particles, researchers can simulate different network topologies and study their formation processes and characteristics. This has profound implications for understanding the structure and function of network systems ranging from neural networks to social networks. The tool can also help study collective behavior phenomena. By observing whether particle groups exhibit synchronized or collective motion under different parameter settings, researchers can gain a deeper understanding of the formation mechanisms of various collective behaviors, from bird flocks to crowd movements.<br><br>This simulator provides visualization tools for the study of stochastic processes. Using the random motion properties of particles, researchers can explore diffusion phenomena in statistical physics, which is important for understanding stochastic processes ranging from molecular motion to stock market fluctuations. As a visual data analysis tool, this simulator can transform abstract data into intuitive visual representations. This not only helps discover hidden patterns in data, but also provides a common language for interdisciplinary research and promotes communication and cooperation between different fields.<br><br>This particle system simulator is the perfect combination of modern web technology and scientific computing. It is mainly built based on HTML5 Canvas and JavaScript technology, which enables it to run in ordinary web browsers without the need to install special software, greatly improving its accessibility and convenience of use. The simulator operates based on several physical and mathematical concepts, including kinematics, collision mechanics and network theory. It updates the position and velocity of each particle in every frame through carefully designed algorithms, and handles interactions between particles according to set rules. The simulator adopts a responsive design and can adapt to different screen sizes, allowing researchers to conduct experiments and demonstrations on various devices. At the same time, through optimized rendering algorithms, smooth animation effects can be maintained even when the number of particles is large.<br><br>This particle system interactive simulator still has a lot of room for development. Possible development directions include adding more physical models to simulate more complex systems; optimizing performance to support larger-scale simulations so that they can handle complex systems closer to the real world; and integrating machine learning algorithms to automatically analyze particle behavior. Patterns, discover new laws and patterns. This interactive particle system simulator is not only an interesting visualization tool, but also a powerful scientific research platform. It provides researchers in physics, biology, social sciences and other fields with new methods to explore complex systems, and is expected to advance our understanding of the world further. With the continuous advancement of technology and the deepening of interdisciplinary cooperation, we expect such tools to play an increasingly important role in scientific research and help us reveal the mysteries of nature and human society.',
+                    isProgram: true,
+                    programLink: 'https://quantumwings.github.io/Basic-particle-interactive-control-panel/'
+                },
+                { 
+                    image: 'img/Advanced-particle-interaction-control-panel.jpg', 
+                    title: 'Advanced particle interaction control panel', 
+                    category: 'Advanced Computing',
+                    description: 'At the forefront of the digital age, the Advanced Particle Interaction Laboratory skillfully blends cutting-edge technology with artistic creativity to provide a unique and powerful platform for scientific research, education and innovation. This laboratory is not only a visually engaging tool, but also a digital environment with profound scientific significance and research value, opening up new ways to explore complex physical phenomena.<br><br>The core scientific purpose of the Advanced Particle Interaction Laboratory is to provide researchers with a flexible and intuitive environment to explore and understand various complex physical phenomena. This platform is capable of simulating and visualizing everything from the quantum behavior of microscopic particles to the motion of celestial bodies on a cosmic scale. By adjusting various parameters, such as particle number, size, speed, etc., researchers can observe how these factors affect the behavior of the overall system, thereby gaining a deeper understanding of various complex processes in nature.<br><br>The scientific significance of this laboratory is reflected in its ability to transform abstract physical theories into visual models. For example, by adjusting the strength of gravity, researchers can simulate various gravity scenarios from the Earth&aposs surface to deep space environments. The color and luminescence effects of particles can be used to simulate the behavior of energetic particles or the spectral properties of celestial bodies. This method of simplifying complex theories into visual parameters not only helps researchers understand and verify theories more intuitively, but also provides a common language platform for interdisciplinary research. In the field of education, the Advanced Particle Interaction Laboratory is a valuable teaching resource. It transforms difficult physical concepts into vivid visual experiences, helping students better understand various theories from Newtonian mechanics to quantum physics. By personally adjusting parameters and observing results instantly, students can develop a spirit of scientific inquiry and stimulate curiosity about the physical world. This interactive learning method not only improves learning efficiency, but also cultivates students&apos creative thinking and problem-solving abilities.<br><br>From a technical perspective, the Advanced Particle Interaction Laboratory is an ingenious combination of modern web technology, computer graphics and physical simulation algorithms. It is built on HTML5 Canvas and JavaScript, which allows it to run in a regular web browser without the need to install specialized software. The underlying physics engine implements models in multiple physical fields including Newton&aposs laws of motion, fluid dynamics, quantum mechanics, etc. Efficient collision detection algorithms and particle system optimization enable smooth animation effects even when the number of particles is large. It is worth mentioning that this laboratory is not just a scientific tool, it also embodies the perfect integration of art and science. By adjusting the color, shape, transparency and trajectory of particles, users can create stunning visual effects. This artistry not only enhances the appeal of the tool, but also provides artists and designers with a physics-based creative platform, opening up new areas of technological art.<br><br>Looking forward to the future of the advanced particle interaction laboratory, there is still broad room for development. Possible directions include introducing more complex physical models, such as relativistic effects and quantum entanglement; integrating machine learning algorithms to automatically analyze particle behavior patterns; and developing virtual reality (VR) and augmented reality (AR) versions to provide a more immersive experience. . With the improvement of computing power, larger-scale simulations may be supported in the future, and even the entire ecosystem or the evolution of the universe can be simulated. The Advanced Particle Interaction Laboratory is not only a powerful scientific research tool, but also a platform to stimulate creativity and promote interdisciplinary collaboration. It blurs the boundaries between science, technology and art, providing a new perspective for us to understand and explore this complex world. Whether they are professional researchers, educators, or ordinary people who are curious about science, they can find inspiration and fun in this digital universe. As technology continues to advance and ideas continue to emerge, we expect such tools to play an increasingly important role in promoting scientific progress and stimulating innovative thinking, opening up a new chapter for humans to understand the world and explore the unknown.',
+                    isProgram: true,
+                    programLink: 'https://quantumwings.github.io/Advanced-particle-interaction-control-panel/'
+                },
+                { 
+                    image: 'img/Snake-Labs-Game.jpg', 
+                    title: 'Snake-Labs Game', 
+                    category: 'Innovation & Experimentation',
+                    description: 'Web applications are not just tools for information dissemination in the digital age but have also become ideal platforms for showcasing complex algorithms and scientific concepts. This Snake experiment game cleverly combines classic game elements with the Breadth-First Search (BFS) algorithm, providing an intuitive window into understanding this important algorithm. The core of this web-based interactive game lies in its ingenious application of the BFS algorithm. BFS is a fundamental algorithm in graph theory, widely used in the field of information science, from network routing to social network analysis, to artificial intelligence and bioinformatics, its influence is ubiquitous. In this game, BFS is used to find the shortest path from the start to the end in a grid filled with random obstacles, which not only demonstrates the practical application of the algorithm but also allows players to intuitively understand the working principles of the algorithm.<br><br>This game adopts the best practices of modern web development and greatly enhances the user experience through smooth animation effects. However, the core of the game is the BFS algorithm. The elegance of BFS lies in its simple yet powerful principle: starting from the initial point, it explores all possible paths layer by layer until it finds the target or traverses the entire graph. This method ensures that the path found is the shortest, which is crucial in many practical applications. In the game, players can clearly see this process: how the algorithm cleverly avoids obstacles, how it effectively expands the search range, and finally finds the shortest path to the target (if it exists).<br><br>From a scientific perspective, the time complexity of the BFS algorithm is O(V+E), where V is the number of vertices and E is the number of edges. This means that in the worst-case scenario, the algorithm needs to visit each vertex and edge once. The space complexity is also O(V+E), as it needs to store the visited vertices and the queue of vertices to be visited. This efficient performance characteristic makes BFS perform excellently when dealing with large-scale graph structures, which is one of the reasons it is popular in many fields.<br><br>It is worth mentioning that the application of the BFS algorithm in this game goes far beyond a simple demonstration. It actually represents an important problem-solving method - heuristic search. In many practical problems, we need to find solutions in a complex state space. BFS provides a systematic way to explore this space, ensuring that no possible solution is missed. This idea is not only applicable to pathfinding but can also be extended to state space search in artificial intelligence, decision tree search in board games, and other broader problem domains.<br><br>Moreover, this game cleverly demonstrates how to transform abstract algorithm concepts into concrete, interactive visual experiences. By allowing users to customize the grid size, choose the start and end points, and observe the impact of obstacles, the game provides a platform for exploration and experimentation. This interactive learning approach not only deepens the understanding of the algorithm but also inspires further exploration. From an educational perspective, this method of gamifying complex concepts has unique advantages. It breaks the monotony of traditional algorithm learning and replaces it with an intuitive, fun, and challenging experience. This not only helps computer science students better understand algorithms but also provides non-professionals with an opportunity to learn about algorithms.<br><br>This advanced Snake game is not just a simple web application; it is a perfect combination of algorithm visualization, interactive learning, and modern web technology. By integrating the principles of the BFS algorithm into a familiar game concept, it successfully builds a bridge between theory and practice. Whether for students learning algorithms or the general public interested in information science, this game offers a novel and interesting way to explore and understand the charm of graph theory algorithms. In the future, we look forward to seeing more innovative applications like this, which not only showcase the power of technology but also inspire a love for science and algorithms.',
+                    isProgram: true,
+                    programLink: 'https://quantumwings.github.io/Snake-Labs/'
+                },		
+                { 
+                    image: 'img/Linea-Regression-Explorer.jpg', 
+                    title: 'Linear Regression Explorer', 
+                    category: 'Innovation & Experimentation',
+                    description: 'In this data-driven era, mastering the basics of statistics and machine learning has become an indispensable skill. Linear regression, one of the cornerstones of these fields, has always been a key concept that learners must master. However, for many people, this concept often seems abstract and difficult to understand. In order to break this learning barrier, the "Linear Regression Explorer" came into being, transforming esoteric mathematical concepts into a vivid visual experience. The Linear Regression Explorer is an interactive learning tool that blends science and technology to help learners, researchers, and data analysts gain a deeper understanding of the core concepts of linear regression models. This innovative platform not only reflects the progress of modern educational technology, but also demonstrates how to transform abstract mathematical theories into intuitive visual experiences. Through the interactive platform, users can manipulate model parameters in real time and immediately observe the impact of these changes on the results. By adjusting slope (a), noise (c), and sample size (n), users can intuitively understand how these parameters affect the performance of the regression model. This instant feedback mechanism greatly improves learning efficiency and makes abstract mathematical concepts concrete and visible. Transforming abstract concepts in statistics, such as data distributions, fitted lines, and residuals, into dynamic visual elements can help deepen understanding. By varying the sample size and noise level, users can explore the stability and reliability of the model under different conditions. This not only helps to understand statistical principles, but also cultivates users&apos scientific inquiry spirit and encourages them to form their own hypotheses and conclusions through repeated experiments.<br><br>Technically speaking, the linear regression explorer is a perfect combination of modern network technology and data visualization technology. It utilizes a range of advanced web development tools and libraries to achieve highly interactive and instantly responsive user interfaces. The front-end framework uses modern HTML5, CSS3 and JavaScript technologies to build a responsive interface. In terms of data visualization, the Plotly.js library is used to implement highly customizable interactive charts, while the D3.js library is used for complex mathematical operations for data processing and linear regression calculations. In order to enhance the visual appeal, the developers cleverly used CSS animation and JavaScript to achieve the "breathing" effect of the data points. This not only beautifies the interface, but also adds a vivid dynamic effect to the entire tool. In order to ensure that user operations are immediately reflected on the chart, the tool also uses event listeners and asynchronous update technology to achieve real-time update functions. In terms of design, the tool adopts a dark theme and neon tones, which is not only beautiful and elegant, but also reduces visual fatigue and is suitable for long-term use. This design fully considers the user experience and reflects the developer&aposs attention to detail.<br><br>Linear regression explorers represent an important development direction in educational technology and data visualization. It is not only a learning tool, but also the crystallization of scientific exploration and technological innovation. By transforming complex statistical concepts into interactive visual experiences, this tool gives learners a new way to understand linear regression. As the fields of data science and artificial intelligence continue to grow, interactive learning tools like these will become increasingly important. The success of the Linear Regression Explorer undoubtedly points the way for the development of more innovative educational tools in the future, promotes the advancement of educational technology, and makes important contributions to cultivating the next generation of data scientists and analysts. The Linear Regression Explorer not only demonstrates how advanced network technology can be applied to the field of education, but also reflects the importance of science and technology promoting each other. It reveals to us a future full of possibilities, in which complex scientific concepts can be made easy to understand and master through innovative technological means, thereby promoting the progress of education and scientific research.',
+                    isProgram: true,
+                    programLink: 'https://quantumwings.github.io/Linear-Regression-Explorer/'
+                },					
+                { 
+                    image: 'img/DataCenters.jpg', 
+                    title: 'Data Centers', 
+                    category: 'Networking & Data Centers',
+                    description: 'With extensive experience in designing and implementing enterprise data centers from the ground up, specialize in creating comprehensive data center solutions that support global business operations. Expertise extends from central data center design to the establishment and integration of regional and industrial data centers, ensuring seamless connectivity and efficiency across international enterprises.<br><br>Core Competencies in Enterprise Data Centers:<br>End-to-End Data Center Design:<br>Expertly manage the entire lifecycle of data center projects, from initial concept and design to deployment and operational management. This includes architectural planning, infrastructure setup, and integration with existing IT systems to meet the specific needs of global enterprises.<br><br>Centralized and Regional Data Centers:<br>Design and implement centralized data centers that serve as the backbone of enterprise IT infrastructure, while also establishing regional data centers in various countries and industrial facilities. Ensure that all data centers are interconnected, providing unified and efficient support for international operations.<br><br>Scalable and Resilient Architecture:<br>Develop scalable and resilient data center architectures capable of supporting extensive workloads and high availability requirements. Incorporate advanced technologies such as virtualization, cloud integration, and redundancy mechanisms to optimize performance and reliability.<br><br>Global Network Integration:<br>Integrate data centers with global networking solutions to ensure consistent and secure connectivity between central and regional locations. Implement robust networking protocols and technologies to support seamless data flow and operational coordination across different geographies.<br><br>Compliance and Security:<br>Ensure that data center operations adhere to global compliance standards and security regulations. Implement stringent security measures, including data encryption, access controls, and regular audits to safeguard sensitive information and protect against threats.<br><br>Operational Excellence and Management:<br>Oversee the day-to-day management of data centers, focusing on operational efficiency, performance optimization, and proactive issue resolution. Utilize advanced monitoring tools and management practices to maintain high standards of service and uptime.<br><br>Key Achievements:<br>Global Data Center Deployment:<br>Successfully designed and deployed multiple international data centers, delivering a cohesive infrastructure that supports global business operations and integrates with existing IT frameworks.<br><br>Comprehensive Integration:<br>Established interconnected data centers across various regions and industrial sites, ensuring unified IT support and enhanced operational efficiency for multinational enterprises.<br><br>Scalable Solutions:<br>Developed and implemented scalable data center architectures that accommodate growing business needs and adapt to evolving technological advancements, ensuring long-term sustainability and performance.<br><br>Enhanced Security and Compliance:<br>Implemented robust security protocols and compliance measures, safeguarding organizational data and meeting international regulatory requirements. Conducted regular assessments to maintain high security standards.<br><br>Operational Efficiency: Achieved operational excellence through effective management practices, optimizing data center performance, reducing costs, and enhancing overall service quality.<br><br>Proficiency in designing and managing enterprise data centers from inception to full-scale implementation ensures that global enterprises have a reliable, secure, and scalable IT infrastructure to support their international operations. Dedicated to delivering comprehensive solutions that drive efficiency and support business success on a global scale.',
+                    isProgram: false,
+                },						
+                { 
+                    image: 'img/Global-Networking.jpg', 
+                    title: 'Global Networking', 
+                    category: 'Networking & Data Centers',
+                    description: 'In my extensive career, I have excelled in developing and implementing comprehensive global networking solutions that seamlessly integrate corporate operations across multiple countries. My expertise lies in connecting disparate regional offices into a unified internal network, ensuring cohesive and efficient collaboration regardless of geographic location.<br><br>Core Expertise in Global Networking:<br>Global Network Integration:<br>Expertly designed and deployed global networking frameworks that unify multiple regional offices into a single, cohesive internal network. This integration has facilitated smooth communication, data sharing, and operational consistency across diverse international locations.<br><br>International IT Infrastructure:<br>Led the development and optimization of robust IT infrastructures that support global connectivity and operational efficiency. This includes the implementation of advanced network technologies, ensuring reliable and secure access to corporate resources from any location.<br><br>Seamless Cross-Border Collaboration:<br>Implemented solutions to ensure that teams and departments across different countries can collaborate seamlessly. By integrating communication tools, project management systems, and shared platforms, I have enhanced productivity and synergy within global teams.<br><br>Centralized Network Management:<br>Established centralized management systems for overseeing and coordinating network operations across various international sites. This approach has streamlined network administration, improved troubleshooting, and ensured consistent policy enforcement.<br><br>Security and Compliance:<br>Ensured that global networking solutions adhere to international security standards and regulatory requirements. Implemented multi-layered security protocols to protect sensitive data and maintain compliance with global data protection regulations.<br><br>Key Achievements:<br>Global Integration Projects: Successfully integrated the IT networks of multinational corporations, enabling seamless data flow and operational alignment across continents. This has significantly enhanced overall business efficiency and collaboration.<br><br>Enhanced Communication Channels:<br>Developed and deployed integrated communication platforms that allow for real-time collaboration and information exchange between global offices, improving responsiveness and teamwork.<br><br>Robust Network Security:<br>Implemented advanced security measures and compliance strategies to safeguard the integrity of global networks. This has included securing data transfers, protecting against cyber threats, and ensuring regulatory adherence.<br><br>Optimized IT Operations: Streamlined network management processes and centralized control systems, resulting in reduced operational costs, improved performance, and enhanced scalability of global IT operations.<br><br>My expertise in global networking ensures that multinational organizations operate as a unified entity, leveraging a cohesive internal network to drive global business success. I am committed to delivering innovative solutions that enhance connectivity, efficiency, and security across all international operations.',
+                    isProgram: false,
+                },						
+                { 
+                    image: 'img/Enterprise-Network.jpg', 
+                    title: 'Enterprise Network', 
+                    category: 'Networking & Data Centers',
+                    description: 'With a profound expertise in designing and managing enterprise network infrastructures, I specialize in creating robust, secure, and efficient network architectures that support the complex needs of multinational corporations. Approach encompasses a comprehensive range of network types, including physical networks, wireless networks, and production line networks, all while adhering to stringent network and security standards.<br><br>Core Competencies in Enterprise Network:<br>Holistic Network Architecture Design:<br>Develop and implement comprehensive network architectures that integrate physical, wireless, and production line networks. Ensure seamless connectivity and interoperability between various network components to support efficient operations and communication within large-scale international enterprises.<br><br>Physical Network Infrastructure:<br>Design and deploy scalable physical network infrastructures, including data cabling, switches, routers, and network appliances. Focus on optimizing network performance, reliability, and scalability to accommodate growing business demands and technological advancements.<br><br>Wireless Network Solutions:<br>Implement advanced wireless network solutions to provide reliable and secure connectivity across various office environments, manufacturing facilities, and remote locations. Utilize cutting-edge technologies such as Wi-Fi 6 and advanced encryption protocols to enhance network performance and security.<br><br>Production Line Network Integration:<br>Integrate network solutions into production lines to facilitate real-time data exchange, automation, and monitoring. Ensure that production line networks are resilient, secure, and capable of supporting complex manufacturing processes and industrial applications.<br>Network Security and Compliance:<br><br>Enforce rigorous network security standards and protocols to safeguard enterprise data and protect against cyber threats. Implement comprehensive security measures such as firewalls, intrusion detection systems, and access controls, and ensure compliance with industry regulations and best practices.<br><br>Advanced Network Visualization and Management:<br>Employ advanced visualization and management tools to monitor network performance, detect issues, and optimize network operations. Implement centralized management systems that provide real-time insights into network health and enable efficient troubleshooting and maintenance.<br><br>Global Network Coordination:<br>Coordinate and manage network infrastructure across multiple geographic locations, ensuring consistent and effective network operations for global enterprises. Facilitate smooth integration of regional and local networks into a cohesive global network structure.<br><br>Key Achievements:<br>Comprehensive Network Design:<br>Successfully designed and implemented a multi-layered network architecture that includes physical, wireless, and production line networks, supporting the operational needs of a global corporation.<br><br>Scalable Physical and Wireless Solutions:<br>Deployed scalable physical and wireless network solutions that enhance connectivity, performance, and security across diverse environments, including office spaces and industrial facilities.<br><br>Integrated Production Line Networks:<br>Effectively integrated network solutions into production lines, enabling real-time data processing and automation that enhance manufacturing efficiency and operational control.<br><br>Rigorous Security and Compliance:<br>Implemented stringent network security measures and compliance protocols, protecting enterprise data from cyber threats and ensuring adherence to industry standards.<br><br>Advanced Network Management:<br>Utilized state-of-the-art network visualization and management tools to monitor and optimize network performance, achieving high levels of operational efficiency and minimizing downtime.<br><br>My extensive experience in designing and managing enterprise network infrastructures ensures that global corporations have a robust, secure, and well-coordinated network environment. I am committed to delivering innovative network solutions that drive operational efficiency and support business success on an international scale.',
+                    isProgram: false,
+                },						
+                { 
+                    image: 'img/Information-Security.jpg', 
+                    title: 'Information Security', 
+                    category: 'Information Security',
+                    description: 'With extensive experience in designing and implementing comprehensive Enterprise Information Security (EIS) architectures, I specialize in creating robust security frameworks that protect multinational organizations across all operational layers. My expertise encompasses the full spectrum of information security, including hardware, networks, firewalls, international compliance, and user behavior.<br><br>Core Competencies in Enterprise Information Security:<br>Comprehensive Security Architecture Design:<br>Develop and implement a holistic Enterprise Information Security architecture that addresses all aspects of information security within international organizations. Design frameworks that integrate security measures across hardware, network infrastructure, applications, and user practices.<br><br>Compliance with International Standards:<br>Ensure alignment with international security standards and regulations such as CTPAT (Customs-Trade Partnership Against Terrorism) and GDPR (General Data Protection Regulation). Design security measures and policies that meet global compliance requirements and industry best practices.<br><br>Hardware and Network Security:<br>Implement robust security solutions for hardware and network infrastructures. Deploy advanced firewalls, intrusion detection systems (IDS), and intrusion prevention systems (IPS) to safeguard against unauthorized access and cyber threats.<br><br>Application and Server Security:<br>Design and enforce security protocols for application systems and servers. Apply measures such as secure coding practices, regular vulnerability assessments, and patch management to protect against application-level vulnerabilities and server breaches.<br><br>International Network Security:<br>Establish secure international network connections, including virtual private networks (VPNs) and encrypted communication channels. Ensure secure data transmission and access controls across global offices and data centers.<br><br>Access Control and Identity Management:<br>Implement rigorous access control mechanisms and identity management solutions. Utilize technologies such as multi-factor authentication (MFA) and role-based access control (RBAC) to manage user permissions and protect sensitive information.<br><br>Behavioral Security and User Awareness:<br>Develop and execute security awareness programs to educate users on best practices and potential threats. Monitor user behavior to detect and respond to suspicious activities and ensure adherence to security policies.<br><br>Incident Response and Management:<br>Design and implement incident response plans and procedures to effectively handle security breaches and incidents. Establish protocols for detecting, analyzing, and mitigating security threats, ensuring minimal disruption and rapid recovery.<br><br>Security Governance and Risk Management:<br>Oversee security governance and risk management activities. Conduct regular risk assessments, security audits, and compliance reviews to identify vulnerabilities, evaluate security posture, and implement corrective actions.<br><br>Integration with Security Technologies:<br>Integrate advanced security technologies such as Security Information and Event Management (SIEM) systems and threat intelligence platforms. Leverage these tools for real-time monitoring, threat detection, and comprehensive security analytics.<br><br>Key Achievements:<br>Global Security Architecture Implementation: Successfully designed and deployed a comprehensive information security architecture for a multinational organization, encompassing hardware, network, application, and user security across global operations.<br><br>International Compliance and Standards:<br>Ensured compliance with CTPAT and GDPR by developing and implementing security policies and controls that align with international regulations and industry standards.<br><br>Advanced Network Security Solutions:<br>Implemented cutting-edge network security solutions, including firewalls, IDS/IPS, and encrypted communications, to protect against cyber threats and unauthorized access.<br><br>Robust Application and Server Protection:<br>Developed and enforced security protocols for applications and servers, incorporating secure coding practices, vulnerability assessments, and patch management.<br><br>Effective Access Control and Identity Management:<br>Deployed multi-factor authentication and role-based access controls to manage user permissions and safeguard sensitive information.<br><br>Successful Security Awareness Programs:<br>Executed security awareness initiatives to educate users on best practices and potential threats, enhancing overall security posture.<br><br>Efficient Incident Response Planning:<br>Established and managed incident response plans, enabling swift detection, analysis, and mitigation of security incidents to minimize impact.<br><br>Integrated Security Technologies:<br>Integrated SIEM systems and threat intelligence platforms to enhance real-time monitoring, threat detection, and security analytics.<br><br>My expertise in Enterprise Information Security ensures that multinational corporations have a robust and compliant security framework, protecting their assets and data across all operational levels. I am dedicated to delivering comprehensive security solutions that address the complex needs of international organizations.',
+                    isProgram: false,
+                },						
+                { 
+                    image: 'img/Energy-Management-Systems.jpg', 
+                    title: 'Energy Management Systems', 
+                    category: 'Enterprise Solutions',
+                    description: 'With a proven track record in designing and managing international energy management systems, I specialize in developing comprehensive power networks that span from global data centers to regional offices and manufacturing facilities. My expertise ensures that energy resources are efficiently managed and visualized across diverse environments, enabling effective oversight and optimization of power usage for multinational corporations.<br><br>Core Competencies in Energy Management Systems:<br>Global Energy Network Design:<br>Design and implement robust energy management systems that connect international data centers, regional offices, and industrial facilities. Create a unified power network that integrates various energy sources and distribution channels to support seamless and efficient energy management across all locations.<br><br>Data Center Energy Solutions:<br>Develop and deploy energy management strategies specifically tailored for data centers, focusing on optimizing power consumption, improving energy efficiency, and ensuring the reliable operation of critical infrastructure. Implement advanced solutions such as dynamic load balancing and energy-efficient cooling systems.<br><br>Office and Facility Energy Management:<br>Design energy management solutions for administrative offices and manufacturing facilities, including advanced monitoring systems and control mechanisms. Ensure that energy usage is optimized across different areas, from HVAC systems and lighting to machinery and production lines.<br><br>Energy Visualization and Monitoring:<br>Utilize state-of-the-art visualization tools to provide real-time insights into energy consumption and performance across the entire enterprise. Implement dashboards and analytics that allow for detailed monitoring, reporting, and forecasting of energy usage at both the macro and micro levels.<br><br>Integrated Power Management Systems:<br>Implement integrated power management systems that connect various energy management components, from data centers to individual office buildings and industrial sites. Ensure interoperability and data consistency across the network to facilitate effective energy oversight and control.<br><br>Energy Efficiency and Sustainability:<br>Develop and apply strategies to enhance energy efficiency and promote sustainability across all enterprise operations. Focus on implementing energy-saving technologies, optimizing energy usage, and reducing the environmental footprint of energy consumption.<br><br>Global Coordination and Compliance:<br>Coordinate energy management practices across different geographic regions, ensuring that global energy policies and standards are consistently applied. Ensure compliance with international regulations and industry best practices for energy management and sustainability.<br><br>Key Achievements:<br>Comprehensive Global Energy Network:<br>Successfully designed and implemented an international energy management system that integrates power networks across global data centers, regional offices, and manufacturing facilities, enabling efficient and coordinated energy management.<br><br>Optimized Data Center Energy Usage:<br>Developed advanced energy management strategies for data centers, resulting in significant improvements in power efficiency and operational reliability.<br><br>Efficient Office and Facility Management:<br>Created tailored energy solutions for administrative and industrial environments, optimizing energy use across HVAC systems, lighting, and production equipment.<br><br>Advanced Energy Visualization:<br>Implemented cutting-edge visualization tools that provide real-time monitoring and detailed analytics of energy consumption, enhancing transparency and decision-making.<br><br>Integrated Power Management:<br>Delivered integrated power management solutions that ensure seamless connectivity and data consistency across various energy management components, improving overall energy control and efficiency.<br><br>Sustainability and Compliance:<br>Promoted energy efficiency and sustainability through the adoption of energy-saving technologies and compliance with international energy standards and regulations.<br><br>My extensive experience in designing and managing energy management systems ensures that global enterprises can effectively oversee and optimize their energy resources. I am committed to delivering innovative solutions that drive operational efficiency, sustainability, and comprehensive energy management on an international scale.',
+                    isProgram: false,
+                },			
+                { 
+                    image: 'img/Enterprise-Resource-Planning.jpg', 
+                    title: 'Enterprise Resource Planning', 
+                    category: 'Enterprise Solutions',
+                    description: 'In the dynamic landscape of global business, effective Enterprise Resource Planning (ERP) is essential for optimizing and integrating all facets of organizational operations. My expertise lies in understanding the intricate workflows across various segments of an enterprise group and in designing comprehensive ERP solutions that enhance operational efficiency and cohesion across the organization.<br><br>Core Competencies in Enterprise Resource Planning:<br>Comprehensive Workflow Analysis:<br>Expertise in analyzing and understanding the complete operational workflows within a corporate group. Ability to map out complex processes and identify areas for improvement to ensure streamlined and efficient operations.<br><br>ERP System Design and Implementation:<br>o	Proficient in designing and implementing ERP systems that integrate various business functions such as finance, human resources, supply chain management, and production. Develop customized solutions that align with the specific needs of the enterprise.<br><br>Process Optimization:<br>o	Skilled in optimizing business processes by leveraging ERP systems. Identify inefficiencies, propose enhancements, and implement best practices to improve productivity and operational effectiveness.<br><br>Integration of Business Functions:<br>Capable of integrating disparate business functions into a cohesive ERP system. Ensure seamless data flow and communication between different departments, enhancing collaboration and data accuracy across the enterprise.<br><br>System Customization and Configuration:<br>Provide customization and configuration of ERP systems to meet the unique requirements of the organization. Tailor solutions to fit the specific needs of different departments and business processes.<br><br>Data Management and Reporting:<br>Expertise in managing and utilizing data within ERP systems. Develop and implement reporting tools and dashboards to provide actionable insights and support data-driven decision-making.<br><br>Change Management and Training:<br>Manage change processes related to ERP implementation, ensuring smooth transitions and minimizing disruptions. Provide training and support to employees to facilitate the adoption of new systems and processes.<br><br>Vendor and Stakeholder Management:<br>Coordinate with ERP vendors and stakeholders to ensure the successful delivery and implementation of ERP solutions. Manage relationships and expectations to align project outcomes with organizational goals.<br><br>Scalability and Future-Proofing:<br>Design ERP systems with scalability in mind to accommodate future growth and technological advancements. Ensure that the system can evolve with the changing needs of the business.<br><br>Compliance and Security:<br>Ensure that ERP systems adhere to industry standards and regulations. Implement robust security measures to protect sensitive data and ensure compliance with relevant laws and policies.<br><br>Key Achievements:<br>Successful ERP Implementation:<br>Led the design and implementation of ERP systems that significantly improved operational efficiency and integration across business functions.<br><br>Process Optimization:<br>Identified and addressed inefficiencies in business processes, resulting in enhanced productivity and streamlined operations.<br><br>Effective Integration:<br>Integrated various business functions into a unified ERP system, improving data accuracy and collaboration among departments.<br><br>Custom Solutions:<br>Delivered customized ERP solutions tailored to the specific needs of the organization, enhancing system functionality and user experience.<br><br>Data-Driven Insights:<br>Developed reporting tools and dashboards that provided valuable insights and supported informed decision-making.<br><br>Change Management:<br>Managed successful ERP transitions and provided comprehensive training, ensuring smooth adoption and minimal disruption.<br><br>Scalable Systems:<br>Designed ERP systems with scalability in mind, accommodating future growth and technological advancements.<br><br>Compliance and Security:<br>Implemented secure and compliant ERP systems, protecting sensitive data and adhering to industry regulations.<br><br>My expertise in Enterprise Resource Planning ensures that organizations can achieve seamless integration of their operations, optimize business processes, and support their strategic objectives through effective ERP solutions.',
+                    isProgram: false,
+                },
+				                { 
+                    image: 'img/Enterprise-Architecture.jpg', 
+                    title: 'Enterprise Architecture', 
+                    category: 'Enterprise Solutions',
+                    description: 'In the current global business environment, a well-defined Enterprise Architecture (EA) is crucial for aligning organizational strategies with information technology systems and ensuring smooth operations across various departments. I excel in understanding the operational workflows of each department within an enterprise group and designing comprehensive enterprise architectures to enhance efficiency, collaboration, and strategic alignment.<br><br>Core Competencies in Enterprise Architecture:<br>Comprehensive Understanding of Organizational Operations:<br>In-depth knowledge of the operational workflows within each department of an enterprise group. Ability to map out complex business processes and identify areas for improvement to ensure smooth and efficient operations.<br><br>Enterprise Architecture Design and Implementation:<br>Expertise in designing and implementing enterprise architectures that align with business strategies. Develop framework architectures that support business objectives, enhance efficiency, and ensure integration across departments.<br><br>Workflow Optimization:<br>Skilled in optimizing workflows through the design of robust architectural frameworks. Identify inefficiencies in business processes, propose improvements, and enhance productivity while reducing operational bottlenecks.<br><br>Business Function Integration:<br>Capable of integrating diverse business functions into a unified enterprise architecture. Ensure seamless data flow and communication between departments, enhancing collaboration and overall operational effectiveness.<br><br>System and Process Alignment:<br>Design architectures that align IT systems with business processes, ensuring technical support and reinforcing organizational goals. Develop solutions that meet current and future business needs.<br><br>Change Management and Adaptation:<br>Manage change processes related to enterprise architecture implementation, ensuring smooth transitions and minimizing disruptions. Adjust architectural frameworks to adapt to evolving business requirements and technological advancements.<br><br>Data and Information Management:<br>Expertise in designing frameworks that support effective data management and information flow. Develop strategies for data integration, governance, and utilization to support decision-making and business operations.<br><br>Compliance and Risk Management:<br>Ensure that architectural frameworks comply with industry standards and regulatory requirements. Implement risk management strategies to protect data and systems, while ensuring adherence to relevant laws and policies.<br><br>Stakeholder Engagement and Communication:<br>Communicate with stakeholders to understand their needs and incorporate their feedback into architectural designs. Effectively convey architectural concepts and benefits to ensure stakeholder alignment and support.<br><br>Scalability and Future Development:<br>Design scalable enterprise architectures that meet future growth and technological advancements. Ensure that the architecture evolves with changing organizational needs.<br><br>Administrative and Internal Control Management:<br>Familiar with administrative management, ISO standards implementation, and internal control processes within the enterprise. Design and optimize frameworks related to administration and internal controls to improve overall operational efficiency and compliance.<br><br>Key Achievements:<br>Comprehensive Architecture Design:<br>Successfully designed and implemented enterprise architectures that significantly enhanced organizational efficiency and alignment with business strategies.<br><br>Workflow Optimization:<br>Developed robust architectural frameworks to optimize workflows, reduce operational bottlenecks, and increase productivity.<br><br>Effective Integration:<br>Integrated various business functions into a unified architecture, improving data accuracy and departmental collaboration.<br><br>Adaptive Solutions:<br>Designed architectural frameworks that adapt to evolving business requirements and technological advancements.<br><br>Data Management:<br>Implemented frameworks that support effective data management and information flow, enhancing decision support.<br><br>Compliance and Risk Management:<br>Ensured architectural frameworks adhered to industry standards and regulations, implementing risk management strategies to protect data and systems.<br><br>Stakeholder Engagement:<br>Successfully engaged with stakeholders, incorporating feedback to align and support architectural designs.<br><br>Administrative and Internal Control Management:<br>Designed and optimized frameworks related to administrative management, ISO standards, and internal controls to enhance overall operational efficiency.<br><br>My expertise in Enterprise Architecture ensures that organizations can achieve seamless integration of operations, optimize business processes, and support their strategic objectives through comprehensive and adaptive architectural solutions.',
+                    isProgram: false,
+                },
+                { 
+                    image: 'img/Business-Intelligence.jpg', 
+                    title: 'Business Intelligence', 
+                    category: 'Enterprise Solutions',
+                    description: 'In today’s fast-paced global market, Enterprise Business Intelligence (EBI) is crucial for international companies to consolidate their information and accelerate decision-making processes. My expertise lies in integrating information across international enterprises and creating enterprise-level business intelligence platforms that visualize all operational data through business intelligence (BI) tools to enhance strategic decision-making.<br><br>Core Competencies in Enterprise Business Intelligence:<br>Comprehensive Data Integration:<br>Proficient in integrating diverse data sources from across international enterprises into a unified business intelligence system. Ensure seamless data consolidation and consistency, enabling comprehensive analysis and reporting.<br><br>Enterprise BI Platform Development:<br>Expertise in designing and developing enterprise-level BI platforms that consolidate operational data from various departments. Create solutions that provide a holistic view of the business, enhancing visibility and supporting strategic planning.<br><br>Data Visualization and Reporting:<br>Skilled in utilizing advanced BI tools to create interactive and intuitive data visualizations. Develop dashboards and reports that present key performance indicators (KPIs) and business metrics in a clear and actionable format.<br><br>Decision Support Systems:<br>Develop and implement decision support systems that provide real-time insights and predictive analytics. Equip decision-makers with timely information to support informed and strategic decisions.<br><br>Advanced Analytics:<br>Proficient in applying advanced analytics techniques, including data mining, statistical analysis, and machine learning, to uncover trends, patterns, and actionable insights from complex data sets.<br><br>Global Data Management:<br>Experienced in managing and analyzing data from multiple international sources, ensuring data accuracy, security, and compliance with global standards and regulations.<br><br>Custom BI Solutions:<br>Ability to tailor BI solutions to meet the specific needs and goals of international enterprises. Customize features and functionalities to align with business objectives and operational requirements.<br><br>Performance Monitoring and Improvement:<br>•	Skilled in monitoring the performance of BI systems and platforms. Analyze user feedback and system performance metrics to identify areas for improvement and optimize BI solutions.<br><br>Change Management and Training:<br>Manage the implementation of BI solutions and provide training to ensure successful adoption across the organization. Develop training programs to educate users on BI tools and best practices.<br><br>Stakeholder Engagement:<br>•	Engage with stakeholders to understand their information needs and incorporate their feedback into BI solutions. Collaborate with internal teams and external partners to ensure the BI platform meets organizational goals.<br><br>Compliance and Security:<br>Ensure BI solutions adhere to industry standards and regulatory requirements. Implement robust security measures to protect sensitive data and ensure compliance with relevant laws and policies.<br><br>Key Achievements:<br>Successful BI Platform Implementation:<br>Led the development and deployment of enterprise BI platforms that enhanced data visibility and accelerated decision-making processes.<br><br>Effective Data Integration:<br>Integrated data from multiple international sources into a cohesive BI system, providing a unified view of operational performance.<br><br>Advanced Data Visualization:<br>Created interactive dashboards and reports that effectively communicated key business metrics and insights, improving decision support.<br><br>Strategic Decision Support:<br>Developed decision support systems that delivered real-time insights and predictive analytics, facilitating informed strategic decisions.<br><br>Customized BI Solutions:<br>Delivered tailored BI solutions that aligned with the specific needs of international enterprises, enhancing overall business intelligence capabilities.<br><br>Performance Optimization:<br>Monitored and improved the performance of BI systems, ensuring they met user needs and provided valuable insights.<br><br>Successful Training and Adoption:<br>Provided comprehensive training and support for BI solutions, ensuring smooth adoption and effective use across the organization.<br><br>Compliance and Security:<br>Implemented secure and compliant BI solutions, protecting sensitive data and adhering to global standards and regulations.<br><br>My expertise in Enterprise Business Intelligence ensures that international enterprises can effectively integrate and visualize their operational data, accelerating decision-making processes and supporting strategic objectives through advanced BI solutions.',
+                    isProgram: false,
+                },								
+                { 
+                    image: 'img/Web-Project-Management.jpg', 
+                    title: 'Web Project Management', 
+                    category: 'Enterprise Solutions',
+                    description: 'In the realm of global enterprises, the design and management of corporate websites are critical for establishing a strong online presence and reflecting the company’s international stature. I specialize in creating sophisticated and impactful web solutions that not only enhance the corporate image but also leverage advanced web technologies to deliver an exceptional user experience.<br><br>Core Competencies in Web Project Management:<br>Comprehensive Web Design and Development:<br>Lead the design and execution of cutting-edge web projects that serve as the digital face of multinational corporations. Ensure that the website embodies the company’s global image and aligns with its strategic objectives.<br><br>UI/UX Design Excellence:<br>Employ advanced UI/UX design principles to create intuitive and engaging user interfaces. Focus on user-centric design to enhance usability, streamline navigation, and improve overall user satisfaction.<br><br>Aesthetic and Graphic Design Expertise:<br>Integrate sophisticated aesthetic and graphic design elements to create visually compelling websites. Utilize design principles to ensure a harmonious and attractive visual presentation that resonates with the target audience.<br><br>Advanced Web Technologies:<br>Implement the latest web technologies and tools to ensure that the website is functional, responsive, and optimized for performance. Leverage technologies such as HTML5, CSS3, JavaScript, and modern frameworks to deliver a state-of-the-art web experience.<br><br>Strategic Web Planning and Execution:<br>Manage all aspects of web project planning and execution, from initial concept through to deployment and ongoing maintenance. Develop detailed project plans, manage resources, and ensure projects are completed on time and within budget.<br><br>Global Brand Representation:<br>Design web solutions that enhance the global brand presence of international enterprises. Create a cohesive online identity that effectively communicates the company’s values and mission, establishing a strong and recognizable digital footprint.<br><br>User Experience (UX) Optimization:<br>Conduct user research and apply insights to refine UX design. Implement features that address user needs and preferences, improving engagement and interaction with the website.<br><br>Content Management and Strategy:<br>Develop and manage content strategies that support the company’s global marketing goals. Ensure content is engaging, optimized for search engines (SEO), and aligned with the overall web design.<br><br>Innovative Design Integration:<br>Incorporate innovative design elements and interactive features to enhance the functionality and appeal of the website. Utilize advanced design techniques to create an engaging and interactive user experience.<br><br>Security and Compliance:<br>Implement robust security measures to protect web applications and user data. Ensure compliance with international standards and regulations, such as GDPR, to maintain data privacy and security.<br><br>Performance Monitoring and Enhancement:<br>Monitor website performance using analytics tools and metrics. Conduct regular assessments and updates to optimize functionality, improve user experience, and achieve project goals.<br><br>Key Achievements:<br>Sophisticated Web Solutions:<br>Successfully designed and developed advanced web projects that significantly enhanced the online presence and global image of multinational corporations.<br><br>Exemplary UI/UX Design:<br>Applied expert UI/UX design techniques to create intuitive and engaging user interfaces, resulting in improved user satisfaction and interaction.<br><br>High-Impact Aesthetic Design:<br>Leveraged graphic and aesthetic design skills to produce visually stunning websites that capture and retain user interest.<br><br>Advanced Technology Application:<br>Utilized cutting-edge web technologies and frameworks to ensure websites are modern, responsive, and optimized for performance.<br><br>Strategic Project Management:<br>Managed complex web projects from conception to deployment, ensuring timely delivery, adherence to budget, and alignment with strategic objectives.<br><br>Global Brand Enhancement:<br>Developed web solutions that effectively represented the international stature of global enterprises, strengthening their online presence and market position.<br><br>Innovative Interactive Features:<br>Integrated interactive design elements and innovative features to create dynamic and engaging web experiences.<br><br>Comprehensive Security Measures:<br>Implemented robust security protocols and compliance measures to protect web applications and user data, ensuring a secure online environment.<br><br>Continuous Performance Optimization: Utilized performance metrics and user feedback to drive continuous improvements and maintain high standards of web functionality and user engagement.<br><br>My expertise in Web Project Management ensures that multinational corporations can achieve a distinguished and impactful online presence, leveraging advanced web technologies and design principles to reflect their global leadership and market excellence.',
+                    isProgram: false,
+                },
+				                { 
+                    image: 'img/Corporate-Identity-System.jpg', 
+                    title: 'Corporate Identity System', 
+                    category: 'Enterprise Solutions',
+                    description: 'In today&quot;s globalized market, a well-developed Corporate Identity System (CIS) is essential for creating a cohesive and recognizable brand presence. My expertise lies in understanding the comprehensive operation of CIS systems and crafting enterprise-level solutions that span from Marketing Identity (MI) to Brand Identity (BI) and Visual Identity (VI) for international corporations.<br><br>Core Competencies in Corporate Identity System:<br>Comprehensive CIS Operation Understanding:<br>Deep familiarity with the full spectrum of CIS operations, including MI, BI, and VI. Ability to design and implement integrated CIS solutions that effectively represent and communicate the brand’s values and vision.<br><br>Marketing Identity (MI) Development:<br>Expertise in developing Marketing Identity strategies that establish a brand’s presence in the market. Design and implement marketing campaigns and materials that align with the brand&quot;s strategic goals and resonate with target audiences.<br><br>Brand Identity (BI) Creation:<br>Proficient in creating Brand Identity frameworks that define the brand&quot;s core values, mission, and positioning. Develop brand guidelines that ensure consistency across all marketing and communication channels, enhancing brand recognition and loyalty.<br><br>Visual Identity (VI) Design:<br>•	Skilled in designing Visual Identity elements such as logos, color schemes, typography, and imagery. Create visual assets that reflect the brand’s personality and values, ensuring a consistent and impactful brand presence.<br><br>Integrated CIS Solutions:<br>Capability to integrate MI, BI, and VI into a unified Corporate Identity System. Ensure that all elements work together harmoniously to reinforce the brand&quot;s message and strengthen its market position.<br><br>Global Brand Alignment:<br>Experience in developing CIS solutions for international corporations, ensuring that the brand&quot;s identity is consistently applied across diverse markets and cultures. Adapt brand elements to local contexts while maintaining global coherence.<br><br>Brand Consistency and Management:<br>Expertise in managing and maintaining brand consistency across all touchpoints. Develop processes and tools for monitoring and enforcing brand guidelines to ensure uniformity and integrity.<br><br>Stakeholder Engagement:<br>Ability to engage with stakeholders to gather insights and feedback for shaping the CIS. Collaborate with internal teams and external partners to align the Corporate Identity System with business objectives and market expectations.<br><br>CIS Implementation and Training:<br>Proficient in implementing CIS solutions and providing training to ensure successful adoption across the organization. Develop and deliver training programs to educate employees and partners on brand guidelines and best practices.<br><br>Performance Monitoring and Improvement:<br>Skilled in monitoring the performance of CIS initiatives and identifying areas for improvement. Analyze brand performance metrics to refine and enhance the Corporate Identity System.<br><br>Key Achievements:<br>Successful CIS Development:<br>Led the creation and implementation of comprehensive Corporate Identity Systems that strengthened brand presence and market impact.<br><br>Effective Marketing Identity Strategies:<br>Developed and executed marketing identity strategies that effectively communicated brand values and engaged target audiences.<br><br>Consistent Brand Identity:<br>Established and maintained a consistent Brand Identity across various channels, enhancing brand recognition and customer loyalty.<br><br>Impactful Visual Identity Design:<br>Designed Visual Identity elements that visually represented the brand’s personality and values, ensuring a strong and cohesive brand presence.<br><br>Global CIS Solutions:<br>Developed and adapted CIS solutions for international corporations, ensuring brand consistency across diverse global markets.<br><br>Brand Management:<br>Implemented processes for maintaining brand consistency and managing brand assets effectively.<br><br>Stakeholder Collaboration:<br>Engaged with stakeholders to align CIS solutions with business objectives and market needs.<br><br>Training and Adoption:<br>Provided training and support for successful CIS implementation and adoption within the organization.<br><br>My expertise in Corporate Identity Systems ensures that organizations can establish a strong, cohesive brand presence that aligns with their strategic goals and resonates with international audiences.',
+                    isProgram: false,
+                },
+                { 
+                    image: 'img/Global-Active-Directory.jpg', 
+                    title: 'Global Active Directory', 
+                    category: 'Technology Integration',
+                    description: 'As an expert in designing and managing global Active Directory (AD) infrastructures, I excel in creating robust and scalable AD solutions for multinational organizations. My proficiency spans from building comprehensive AD architectures to integrating diverse platforms and applications, ensuring seamless operation and stringent security across all corporate nodes.<br><br>Core Competencies in Global Active Directory:<br>Global AD Architecture Design:<br>Develop and deploy a scalable Active Directory architecture tailored for international enterprises. This includes designing multi-domain and multi-forest structures that provide seamless integration, high availability, and efficient management across global operations.<br><br>Integration with Heterogeneous Platforms:<br>Facilitate the integration of Active Directory with various heterogeneous platforms, applications, and devices. Ensure interoperability and data synchronization between AD and diverse systems, including cloud services, ERP systems, and custom applications, to support unified IT operations.<br><br>Centralized Management and Control:<br>Implement a centralized management framework for overseeing all AD nodes, devices, and user accounts worldwide. Utilize advanced tools for managing group policies, access controls, and directory objects from a unified interface, improving operational efficiency and control.<br><br>Advanced Device and Account Visualization:<br>Deploy sophisticated visualization tools to monitor and manage all AD-connected devices and user accounts. Provide real-time insights into directory objects, access permissions, and system performance through interactive dashboards and detailed reporting.<br><br>Secure and Compliant Directory Services:<br>Design and enforce stringent security protocols to protect Active Directory environments. Implement robust access controls, encryption, and audit logging to ensure data integrity, compliance with industry standards, and protection against unauthorized access.<br><br>Global Policy and Compliance Management:<br>Develop and manage group policies that align with global security and operational standards. Ensure consistent policy enforcement across all domains and organizational units to maintain uniform security settings and compliance.<br><br>Disaster Recovery and High Availability:<br>Establish disaster recovery and high availability strategies to ensure continuity of Active Directory services. Create backup and restore procedures, and design fault-tolerant configurations to minimize downtime and ensure rapid recovery in case of system failures.<br><br>Integration with Heterogeneous Systems and Applications:<br>Achieve seamless integration of Active Directory with diverse systems and applications. Ensure compatibility and synchronization with different platforms, including legacy systems and modern applications, to support cohesive IT infrastructure.<br><br>Scalability and Performance Optimization:<br>Design AD solutions that are scalable and capable of handling large volumes of user accounts and directory objects efficiently. Optimize performance through effective resource management, load balancing, and replication strategies.<br><br>Key Achievements:<br>Global AD Architecture Implementation:<br>Successfully designed and deployed a comprehensive global Active Directory architecture for an international organization, incorporating multiple domains and forests to support worldwide connectivity with high availability.<br><br>Integration with Diverse Platforms:<br>Achieved seamless integration of AD with various heterogeneous platforms, including cloud services and custom applications, ensuring consistent data synchronization and interoperability.<br><br>Centralized Management Framework:<br>Implemented a centralized AD management system that streamlined oversight of all directory nodes, devices, and user accounts, enhancing operational efficiency and control.<br><br>Advanced Visualization and Reporting:<br>Utilized advanced visualization tools to provide detailed real-time insights into directory objects, device status, and user activities, improving management and decision-making.<br><br>Enhanced Security Measures:<br>Developed and enforced stringent security protocols and compliance measures to protect AD environments, including role-based access controls, encryption, and comprehensive audit logging.<br><br>Effective Global Policy Management:<br>Managed and enforced group policies across global domains and organizational units, ensuring consistent security settings and adherence to operational standards.<br><br>Robust Disaster Recovery Planning:<br>Implemented effective disaster recovery and high availability strategies, including fault-tolerant configurations and backup procedures, to ensure minimal downtime and rapid recovery.<br><br>Successful Integration with Heterogeneous Systems:<br>Integrated AD with diverse systems and applications, achieving compatibility and synchronization across legacy and modern platforms.<br><br>My expertise in global Active Directory ensures that multinational corporations can effectively manage and secure their directory services while integrating diverse platforms and applications. I am committed to delivering high-performance, scalable, and secure AD solutions that meet the complex needs of international organizations.',
+                    isProgram: false,
+                },
+                { 
+                    image: 'img/Technical-Support.jpg', 
+                    title: 'Technical Support', 
+                    category: 'Technology Integration',
+                    description: 'In today&quot;s digital and highly automated business environment, enterprise IT technical support plays a critical role. I specialize in a broad range of IT fields, providing comprehensive technical support that spans from desktop computers to servers, and extends to international data centers. My expertise also includes digital transformation and information-based production, dedicated to supporting technological innovation and business growth for enterprises.<br><br>Core Competencies in Enterprise IT Technical Support:<br>Comprehensive IT Support:<br>Proficient in managing various IT equipment from desktop computers to servers. Provide daily technical support, resolve user issues, and ensure all IT systems operate smoothly and reliably.<br><br>International Data Center Management:<br>Skilled in designing and maintaining international data centers, including facility planning, implementation, and management. Ensure high availability and operational efficiency of data centers to support global business needs.<br><br>Software and Hardware Support:<br>Provide extensive support for both software and hardware, covering system installation, configuration, upgrades, and troubleshooting. Familiar with various operating systems, applications, and hardware devices, capable of quickly diagnosing and resolving technical issues.<br><br>Industrial Electronics and Electrical Engineering:<br>Possess expertise in industrial electronics and electrical engineering, supporting complex electronic devices and electromechanical systems. Handle maintenance and fault diagnosis of various industrial equipment, ensuring efficient operation.<br><br>Digital Transformation Support:<br>Assist enterprises in implementing digital transformation strategies, converting traditional business processes into digital formats to enhance efficiency and flexibility. Includes the design and implementation of digital management systems, integrating advanced technological solutions to support business objectives.<br><br>Information-Based Production Integration:<br>Effectively integrate IT with production processes to achieve smart production systems. Provide comprehensive support from equipment automation to data analysis, improving production efficiency and quality control.<br><br>System Integration and Technical Support:<br>Capable of integrating various IT systems, from different platforms and applications to hardware devices, ensuring seamless interoperability. Provide technical support to address system integration challenges and ensure business continuity.<br><br>Security and Compliance:<br>Ensure that all IT equipment and systems meet security standards and compliance requirements. Implement security measures to protect data and systems from threats, and ensure adherence to international standards and industry regulations.<br><br>Fault Diagnosis and Repair:<br>Expert in fault diagnosis and repair techniques, able to quickly resolve various technical issues. Conduct system diagnostics, repair hardware and software faults, and provide ongoing technical support services.<br><br>Technical Training and Support:<br>Provide technical training and support to help employees master the latest technologies and tools. Design and execute training programs to enhance employees&quot; technical skills and self-support capabilities.<br><br>Key Achievements:<br>Comprehensive IT Support: Successfully delivered extensive IT support services, ensuring the stability and reliability of internal systems.<br><br>Data Center Management:<br>Efficiently managed international data centers, enhancing operational efficiency and service quality, supporting global business needs.<br><br>Technical Issue Resolution:<br>Provided expert fault diagnosis and repair for various IT equipment and systems, ensuring rapid restoration of system operations.<br><br>Industrial Equipment Support:<br>Leveraged expertise in industrial electronics and electrical engineering to support complex industrial equipment operation and maintenance.<br><br>Digital Transformation Implementation:<br>Successfully assisted enterprises in digital transformation, improving business efficiency and flexibility, and supporting diverse technical needs during the transition.<br><br>Information-Based Production Integration:<br>Offered comprehensive solutions for information-based production, achieving smart production systems, and enhancing production efficiency and quality control.<br><br>System Integration:<br>Effectively integrated various IT systems, improving collaboration efficiency and overall performance.<br><br>Security Compliance:<br>Ensured IT systems adhered to security standards and compliance requirements, protecting enterprise data security.<br><br>Technical Training:<br>Delivered targeted technical training to enhance employees&quot; technical proficiency and problem-solving abilities.<br><br>My expertise covers everything from basic desktop support to international data center management, including digital transformation and information-based production integration. I ensure that enterprise IT systems operate reliably and continuously innovate, supporting competitive advantages in the global market.',
+                    isProgram: false,
+                },
+            ]
+        },
+        computed: {
+            filteredPortfolioItems() {
+                if (this.filterCategory === 'All') {
+                    return this.portfolioItems;
+                }
+                return this.portfolioItems.filter(item => item.category === this.filterCategory);
+            }
+        },
+        methods: {
+            openModal(item) {
+                if (item && item.title && item.category) {
+                    this.selectedItem = item;
+                } else {
+                    console.error('Invalid item:', item);
+                }
+            },
+            closeModal() {
+                this.selectedItem = null;
+            },
+            openProgram(item) {
+                if (item && item.programLink) {
+                    window.open(item.programLink, '_blank');
+                } else {
+                    console.error('Invalid item or missing programLink:', item);
+                }
+            },
+            toggleMenu() {
+                this.menuActive = !this.menuActive;
+            },
+            setActivePage(id) {
+                this.menuItems.forEach(item => {
+                    item.active = (item.id === id);
+                });
+                this.menuActive = false;
+            },
+            initAnimations() {
+                gsap.registerPlugin(ScrollTrigger);
+                
+                gsap.from(this.$refs.portfolioTitle, {
+                    opacity: 0,
+                    y: 50,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: this.$refs.portfolioTitle,
+                        start: "top bottom",
+                        end: "bottom top",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            },
+            changeLanguage() {
+                if (this.selectedLanguage === 'en') {
+                    window.location.href = 'portfolio.html';
+                } else if (this.selectedLanguage === 'zh') {
+                    window.location.href = 'portfolio-zh.html';
+                }
+            }
+        },
+        mounted() {
+            this.$nextTick(() => {
+                this.initAnimations();
+                
+                gsap.to(this.$refs.portfolioTitle, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    delay: 0.5
+                });
+            });
+
+            window.addEventListener('scroll', () => {
+                this.scrolled = window.scrollY > 50;
+            });
+            gsap.utils.toArray('.portfolio-item').forEach((item) => {
+                gsap.from(item, {
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top 80%',
+                        end: 'bottom 20%',
+                        toggleActions: 'play none none reverse',
+                    },
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    ease: 'power1.out',
+                });
+            });
+        },
+        watch: {
+            scrolled(value) {
+                document.body.classList.toggle('scrolled', value);
+            }
+        }
+    });
+</script>
+</body>
+</html>

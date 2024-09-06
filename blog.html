@@ -1,0 +1,600 @@
+<html><head><base href="https://quantumwings.github.io/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visionary Insights Blog</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+<style>
+    :root {
+        --primary-color: #2C3E50;
+        --secondary-color: #ECF0F1;
+        --accent-color: #E67E22;
+        --text-color: #34495E;
+        --background-color: #FDFEFE;
+    }
+    
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Montserrat', sans-serif;
+        color: var(--text-color);
+        background-color: var(--background-color);
+        scroll-behavior: smooth;
+    }
+    
+    header {
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 15px 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    header.scrolled {
+        background-color: rgba(255, 255, 255, 0.98);
+    }
+    
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .logo {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+    
+    .nav-links {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-links li {
+        margin-left: 30px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .nav-links a {
+        text-decoration: none;
+        color: var(--primary-color);
+        font-weight: 400;
+        transition: color 0.3s ease;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    .nav-links a:hover {
+        color: var(--accent-color);
+    }
+    
+    main {
+        max-width: 1200px;
+        margin: 100px auto 50px;
+        padding: 0 20px;
+    }
+    
+    .blog-header {
+        padding-top: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    
+    .blog-header h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 48px;
+        text-align: center;
+        margin-bottom: 40px;
+        color: var(--primary-color);
+    }
+    
+    .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+    
+    .blog-post {
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    
+    .blog-post:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    
+    .blog-post img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
+    
+    .blog-content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: space-between;
+    }
+    
+    .blog-content h2 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: var(--primary-color);
+        height: 60px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    
+    .blog-content p {
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--text-color);
+        margin-bottom: 15px;
+        height: 80px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+    }
+    
+    .read-more {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: var(--accent-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+        align-self: flex-start;
+        margin-top: auto;
+    }
+    
+    .read-more:hover {
+        background-color: #D35400;
+    }
+    
+    .full-article {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .full-article img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .full-article h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 36px;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+    }
+    
+    .full-article p {
+        font-size: 16px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+    
+    .back-to-blog {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 10px 20px;
+        background-color: var(--accent-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .back-to-blog:hover {
+        background-color: #D35400;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+    }
+    
+    .pagination button {
+        background-color: var(--secondary-color);
+        border: none;
+        color: var(--primary-color);
+        padding: 10px 15px;
+        margin: 0 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .pagination button:hover, .pagination button.active {
+        background-color: var(--accent-color);
+        color: white;
+    }
+    
+    footer {
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        text-align: center;
+        padding: 30px 0;
+        margin-top: 50px;
+    }
+    
+    .social-icons {
+        margin-bottom: 15px;
+    }
+    
+    .social-icons a {
+        color: var(--secondary-color);
+        font-size: 20px;
+        margin: 0 10px;
+        transition: color 0.3s ease;
+    }
+    
+    .social-icons a:hover {
+        color: var(--accent-color);
+    }
+
+	.language-selector {
+        display: flex;
+        align-items: center;
+        position: relative;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+    }
+    
+    .language-selector select {
+        appearance: none;
+        background-color: transparent;
+        border: none;
+        padding: 5px 20px 5px 5px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--primary-color);
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    
+    .language-selector::after {
+        content: '\25BC';
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        transform: translateY(-50%);
+        pointer-events: none;
+        font-size: 12px;
+        color: var(--primary-color);
+    }
+	
+	.menu-toggle {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+    
+    @media (max-width: 1024px) {
+        .blog-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 200px;
+            padding: 20px;
+        }
+        
+        .nav-links.active {
+            display: flex;
+        }
+        
+        .nav-links li {
+            margin: 10px 0;
+        }
+        
+        .menu-toggle {
+            display: block;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .blog-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .full-article {
+            padding: 20px;
+        }
+    }
+</style>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <nav>
+                <a href="#" class="logo">JER LIAW</a>
+                <ul class="nav-links" :class="{ 'active': menuActive }">
+                    <li v-for="item in menuItems" :key="item.id">
+                        <a :href="item.link" :class="{ active: item.id === activePage }" @click="setActivePage(item.id)">{{ item.name }}</a>
+                    </li>
+                    <li class="language-selector">
+                        <select v-model="selectedLanguage" @change="changeLanguage">
+                            <option value="en">EN</option>
+                            <option value="zh">中文</option>
+                        </select>
+                    </li>
+                </ul>
+                <div class="menu-toggle" @click="toggleMenu">&#9776;</div>
+            </nav>
+        </header>
+
+        <main>
+            <div v-if="currentView === 'blogList'">
+                <div class="blog-header">
+                    <h1>Visionary Insights Blog</h1>
+                </div>
+                <div class="blog-grid">
+                    <article v-for="post in paginatedPosts" :key="post.id" class="blog-post">
+                        <img :src="post.image" :alt="post.title">
+						<div class="blog-content">
+							<h2>{{ post.title }}</h2>
+							<!-- Using v-html to render the excerpt as HTML -->
+							<p v-html="post.excerpt"></p>
+							<a href="#" class="read-more" @click.prevent="showFullArticle(post)">Read More</a>
+						</div>
+                    </article>
+                </div>
+                <div class="pagination">
+                    <button v-for="pageNumber in totalPages" :key="pageNumber" @click="changePage(pageNumber)" :class="{ active: currentPage === pageNumber }">
+                        {{ pageNumber }}
+                    </button>
+                </div>
+            </div>
+            
+			<div v-else-if="currentView === 'fullArticle'" class="full-article">
+				<img :src="currentArticle.image" :alt="currentArticle.title">
+				<h1>{{ currentArticle.title }}</h1>
+				<!-- Using v-html to render the full content as HTML -->
+				<p v-html="currentArticle.fullContent"></p>
+				<a href="#" class="back-to-blog" @click.prevent="backToBlogList">Back to Blog List</a>
+			</div>
+        </main>
+
+        <footer>
+            <p>&copy; {{ new Date().getFullYear() }} by JER LIAW All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                return {
+                    activePage: 'blog',
+                    menuActive: false,
+                    currentView: 'blogList',
+                    currentArticle: null,
+					selectedLanguage: 'en',
+                    currentPage: 1,
+                    postsPerPage: 6,
+					menuItems: [
+						{ id: 'home', name: 'Home', link: 'index.html' },
+						{ id: 'portfolio', name: 'Portfolio', link: 'portfolio.html' },
+						{ id: 'about', name: 'About', link: 'about.html' },
+						{ id: 'books', name: 'Books', link: 'books.html' },
+						{ id: 'blog', name: 'Blog', link: 'blog.html' },
+						{ id: 'contact', name: 'Contact', link: 'contact.html' },
+					],
+                    blogPosts: [
+                        {
+							id: 1,
+							title: "Virtual battlefield: A panoramic view of cyberattacks",
+							excerpt: "Comprehensive analysis of modern cyber attack types, from basic threats to advanced technical challenges",
+							image: "img/Virtual-battlefield-A-panoramic-view-of-cyberattacks.jpg",
+							fullContent: "In this era of increasingly accelerated digitalization, information security has become an indispensable part of enterprises and individuals. As technology advances, attackers continue to evolve their strategies and tools, posing an unprecedented threat to our digital lives. The following is a summary of key information security threats classified by type to help understand and prevent these increasingly sophisticated attack methods. Staying alert and updated is key to keeping our digital lives secure. 🔒<br><br>Advanced Persistent Threat (APT):<br>Attackers lurk in the network for a long time and steal data quietly.<br><br>Brute Force Attack:<br>Try a large number of username and password combinations in an automated way.<br><br>Command and Control Attack:<br>The attacker establishes communication with the victim's system to control and send commands.<br><br>Cross-Site Scripting (XSS):<br>Attack users by injecting malicious scripts into web pages.<br><br>DNS Amplification:<br>Use the reflection function of the DNS server to amplify attack traffic.<br><br>DNS Hijacking:<br>Change the DNS resolution process and direct users to malicious websites.<br><br>DNS Tunneling:<br>Hide data transfer via DNS queries.<br><br>Denial of Service (DoS) Attack:<br>Attack targets with floods of traffic.<br><br>Drive-by Download Attack:<br>Automatically download and execute malware from malicious websites.<br><br>Man-in-the-Middle Attack:<br>Attackers intercept and modify data between communicating parties.<br><br>Meltdown and Specter Attack:<br>Exploiting processor design flaws to steal data from system memory.<br><br>Network Sniffing:<br>Monitor network traffic for sensitive information.<br><br>Pass the Hash:<br>Authentication using hashes instead of passwords.<br><br>SQL Injection:<br>By injecting malicious SQL code into database queries.<br><br>Supply Chain Attack:<br>Compromising one link in the supply chain affects the entire system.<br><br>Typosquatting:<br>Exploiting a URL that the user mistyped.<br><br>Watering Hole Attack:<br>Place traps on websites frequently visited by your target group.<br><br>Zero-Day Exploit:<br>Exploiting software vulnerabilities that have not yet been disclosed.<br><br>API Attacks:<br>Security vulnerabilities targeting application programming interfaces.<br><br>Wireless Attacks:<br>Attacks on wireless networks.<br><br>AWS Attacks:<br>Exploiting configuration errors or security vulnerabilities.<br><br>Cloud Cryptomining:<br>Criminals use other people’s cloud resources to mine cryptocurrency.<br><br>Suspicious Cloud Storage Activities:<br>Monitor and identify abnormal cloud storage usage patterns.<br><br>Cloud Security Threats:<br>Security threats to cloud computing environments.<br><br>Account Takeover:<br>Hackers gain control of user accounts by stealing their login credentials.<br><br>Business Email Compromise (BEC):<br>Scam via email impersonating a senior executive.<br><br>Compromised Credentials:<br>Exposed login credentials could be used to conduct further attacks.<br><br>Credential Dumping:<br>The attacker extracted and exfiltrated a large number of user credentials from the system.<br><br>Credential Reuse Attack:<br>Take advantage of users' habit of reusing the same credentials across multiple services.<br><br>Cryptojacking Attack:<br>Mining cryptocurrency secretly on the victim's device.<br><br>Insider Threat:<br>Malicious or negligent actions by people within the organization.<br><br>Masquerade Attack:<br>Attackers impersonate others to gain unauthorized access.<br><br>Phishing:<br>Trick users into providing sensitive information through fake communications.<br><br>Phishing Payloads:<br>Code or data used to perform malicious activity in phishing attacks.<br><br>Spear Phishing:<br>Phishing attacks targeting specific individuals or organizations.<br><br>Whale Phishing (Whaling):<br>Phishing attacks targeting senior executives.<br><br>Privileged User Compromise:<br>An attacker gains control of a user with broad access rights.<br><br>Simjacking:<br>Through SIM card vulnerabilities, attackers can take over mobile phone numbers and related services.<br><br>Social Engineering Attack:<br>Exploiting weaknesses in human psychology to trick victims into revealing sensitive information or performing specific actions.<br><br>Web Session Cookie Theft:<br>Steal the user's session cookie to impersonate the user's identity.<br><br>Application Access Token:<br>An attacker could steal these tokens to gain unauthorized access to the application.<br><br>Bill Fraud:<br>Defrauding money by forging or altering instruments.<br><br>IoT Vulnerabilities:<brSecurity vulnerabilities in IoT devices may be exploited for attacks.<br><br>Macro Viruses:<br>Viruses spread through macros can execute malicious code when the document is opened.<br><br>Malicious Powershell:<br>Use Powershell to perform malicious activities, which usually do not trigger security alerts.<br><br>Malware:<br>Including viruses, worms, Trojan horses, etc., designed to damage or steal data.<br><br>Ransomware:<br>Malware that encrypts a user's data and demands a ransom to unlock it.<br><br>Router and Infrastructure Attacks:<br>Attacks on network hardware can cause widespread service disruptions.<br><br>Shadow IT:<br>Technology used by employees without formal approval may pose security risks.<br><br>Spyware:<br>Software hidden on a user's device to monitor and transmit personal data.<br><br>Open Redirection:<br>Direct users to malicious websites via unverified redirects.<br><br>Artificial Intelligence Attackers:<br>Use AI for more precise and automated attacks.<br><br>Cybersecurity Skills Gap:<br>A shortage of professional cybersecurity talent may lead to insufficient defense capabilities.<br><br>Vehicle Hacking:<br>Attacks against electronic systems in modern cars.<br><br>Mobile Device Threats:<br>Security threats against mobile devices such as smartphones and tablets.<br><br>Cloud Security Threats:<br>Security threats to cloud computing environments.<br><br>State-Sponsored Attacks:<br>Cyber ​​attacks carried out by state-sponsored hackers or groups.<br><br>Data Poisoning Attacks:<br>Influence machine learning models by contaminating training data.<br><br>SEO Poisoning:<br>Direct users to malicious websites by manipulating search engine optimization.<><br>Quantum Threats:<br>The development of quantum computing may pose a threat to existing encryption technologies.<br><br>Deepfakes:<br>Use AI technology to create fake images or recordings that look real."
+						},
+						{
+							id: 2,
+							title: "The world’s first AI resolution: promoting human rights protection and data security",
+							excerpt: "The United Nations General Assembly passed a new resolution requiring countries to protect human rights, bridge the digital divide, and monitor AI risks",
+							image: "img/1711423070655.jpg",
+							fullContent: "The United Nations General Assembly passed the first global resolution on artificial intelligence on March 21, 2024, encouraging nations to safeguard human rights, protect personal data, and monitor the risks associated with AI. This resolution emphasizes the need to bridge the digital divide between developed and developing countries, ensuring that all nations are on an equal footing in discussions and development of AI. Moreover, the resolution notes that improperly or maliciously designed, developed, or used AI systems may infringe upon human rights, exacerbate biases, and pose threats to the protection of personal data."
+						},
+						{
+                            id: 3,
+                            title: "Artificial Intelligence: Risks, Challenges and the Future",
+                            excerpt: "A deep dive into the challenges and risks of artificial intelligence, and how to stay safe and resilient in the future technological revolution",
+                            image: "img/Artificial-Intelligence--Risks-Challenges-and-the-Future.jpg",
+                            fullContent: "In the field of artificial intelligence (AI), data has become the new currency. In this global race, organizations with the most data will likely come out ahead. However, AI cannot solve all the world's problems. The successful implementation and application of AI depends on the quantity and quality of data. Collecting large amounts of high-quality data is only part of the AI ​​lifecycle. Organizations must also be able to extract valuable information from the data and turn it into practical insights. Therefore, organizations must continuously leverage the latest data to train AI models to avoid model hallucinations and drift. There is a knowledge gap here. This gap that exists between security professionals who understand AI and those who don’t will be a major reason for the changing balance of power among threat actors. The existence of AI is inevitable, and the question we must ask is: do security leaders and professionals have the skills required, or are they willing to invest the time to upskill and learn how to respond to what is becoming the largest ever crisis? technological revolution. Harnessing the power of this technology, and defending against it, both depend on the ability to understand it and its limitations.<br><br>The only way to fight AI is to use it, but before that you have to master the basics. Defending against AI ultimately means defending against all indexed human knowledge. In this age of unlimited information, security professionals must protect their organizations and face unprecedented challenges. In other words, if we have been trying to do the basic things well, an excessive shift toward using AI to solve problems will be largely benign. The best way to mitigate attacks is to ensure that basic controls for security are addressed. We often chase shiny things like AI, and the AI's best defense is strong base control. Therefore, when discussing &quot;security by design,&quot; we not only need to consider AI tools and models, but also make them the focus. If AI is the inevitable future of how organizations and critical infrastructure do business, operate, develop services, etc., then security must be built in from the start. AI must be designed and implemented in a way that solves many of the historical concerns of the web.<br><br>If we only see safety when constructing governance processes in AI discussions, but never see safety in its production, operation, or adjustment processes, the reasoning of the model will often be ignored, but it is safe. key part. Many business leaders believe that AI will solve problems immediately, automatically, and that it will magically work. For example, a model doing the &quot;right thing&quot; depends on accuracy, which depends on training the model and reducing the chance of hallucinations. If we continue to prioritize creativity and speed over accuracy in AI, large language models will fall into hallucinations. Securing models throughout their entire lifecycle (build, test, and production) will be a focus for security teams and regulators in the coming years.<br><br>When we create new technologies that significantly change the way we do business, there is often over-excitement and a glass-half-full mentality - often focusing solely on the opportunities presented rather than weighing the risks. AI is a victim of this cycle. The good news, however, is that the industry is still in the smoke and mirrors phase of AI, testing its power and exploring use cases. We now either spend time learning techniques to identify and address potential signal flares, or we become low-hanging fruit for hackers to exploit. Most importantly, we cannot let innovation and excitement outweigh security and resiliency."
+                        },
+                        {
+                            id: 4,
+                            title: "Top 10 Fastest-Growing Jobs Expected in the Next Five Years",
+                            excerpt: "Identifying Emerging Careers Shaping the Future of Work with Technology, Data, and Sustainability",
+                            image: "img/Top-10-Fastest-Growing-Jobs-Expected-in-the-Next-Five-Years.jpg",
+                            fullContent: "1. AI and Machine Learning Specialists:<br>Amid the swift progression of technology, AI and Machine Learning Specialists are increasingly sought after. Their role encompasses the development and implementation of AI models and algorithms to automate processes and generate insights.<br><br>2. Sustainability Specialists:<br>As global consciousness of environmental issues heightens, Sustainability Specialists are required to aid organizations in reducing their environmental impact and promoting sustainable practices.<br><br>3. Business Intelligence Analysts:<br>These professionals play a pivotal role in assisting businesses in making data-driven decisions. They analyze data trends and patterns to provide actionable insights.<br><br>4. Information Security Analysts:<br>With the escalating prevalence of cyber threats, Information Security Analysts are indispensable for safeguarding sensitive information and maintaining the integrity of IT systems.<br><br>5. Fintech Engineers:<br>The financial sector is undergoing a digital transformation, and Fintech Engineers are at the vanguard of this change. They develop and implement innovative financial technologies.<br><br>6. Data Analysts and Scientists:<br>These professionals transform raw data into meaningful information that can be utilized for strategic decision-making. Their skills are in demand across a variety of industries.<br><br>7. Robotics Engineers:<br>As automation becomes more prevalent, Robotics Engineers are needed to design, test, and implement robotic systems.<br><br>8. Electrotechnology Engineers:<br>These engineers are involved in the design and development of electrical and electronic technology, a field that continues to grow with technological advancements.<br><br>9. Agricultural Equipment Operators:<br>With the rise of precision agriculture, operators who can manage advanced agricultural equipment are in demand.<br><br>10. Digital Transformation Specialists:<br>As businesses adapt to the digital age, these specialists guide the process of integrating digital technology into all areas of a business.<br><br>These roles represent the intersection of technology, data, and sustainability, reflecting the key trends shaping the job market in the coming years."
+                        },
+                        {
+                            id: 5,
+                            title: "The Road to Corporate Transformation: Challenges and Strategies of Artificial Intelligence.",
+                            excerpt: "Navigating the Path to Successful AI Transformation by Addressing Key Challenges and Implementing Strategic Solutions",
+                            image: "img/The-Road-to-Corporate-Transformation-Challenges-and-Strategies-of-Artificial-Intelligence.jpg",
+                            fullContent: "The Road to Corporate Transformation: Challenges and Strategies of Artificial Intelligence.<br><br>In the digital age, AI has become a significant driver of corporate transformation. However, for many companies, the adoption of AI is not an easy task. Companies face various challenges in the process of AI transformation. For example, the lack of data or its dispersion across departments makes data integration difficult. The AI-related technology in the core business area is not yet mature, making it difficult for companies to optimize business processes with AI. In addition, the lack of understanding of AI within the company and the difficulty in recruiting AI-related talents are also important factors hindering AI transformation.<br><br>To solve these problems, companies need to improve AI literacy at three levels:<br>CXO Level: Understand what AI can and cannot do, reflect on existing cases and prepare their own resources, form a core transformation team, select appropriate middle and senior executives to participate in industry-specific courses, and design AI development blueprints and topic selection work.<br><br>Managerial Level: Management needs comprehensive AI literacy and cross-industry exchanges, and the industry needs exclusive domain application exchanges and real-world learning.<br><br>Engineer Level: Engineers need to carry out technical project implementation in various fields, such as programming languages, predictive models, object detection, smart manufacturing.<br><br>Companies need to clarify their AI transformation goals and select appropriate AI application cases based on these goals. Determine their position in the process of AI transformation and formulate corresponding strategies based on this position. Consider the investment scale of AI transformation and allocate resources based on this scale.<br><br>In the successful introduction of AI, the following steps are worth noting:<br>Data Rectification: Ensure the integrity and accuracy of the data and establish an effective data management and sharing mechanism.<br><br>Conscious Implementation: Clearly define the application scope and goals of AI, and select appropriate AI technologies and tools based on these goals.<br><br>Identify Advocates to Guide Direction: Find internal advocates who can promote AI transformation and provide them with sufficient authority and resources.<br><br>Prioritize Skill Training: Conduct AI skill training for internal talents and seek external professional support when needed.<br><br>Help Employees Develop New Work Habits: Encourage employees to embrace new ways of working and thinking, and foster a work environment that supports innovation and learning.<br><br>AI transformation is a complex process, and it requires companies to have clear goals, strategies, and resource allocation. To successfully carry out AI transformation, it is necessary to overcome the above challenges and adopt corresponding strategies. Companies also need to continue learning and optimizing to achieve greater success on the road to AI transformation."
+                        },
+                        {
+                            id: 6,
+                            title: "Cybersecurity: Challenges, Strategies and the Future",
+                            excerpt: "Navigating Emerging Threats with Effective Strategies for a Secure Digital Future",
+                            image: "img/Cybersecurity--Challenges-Strategies-and-the-Future.jpg",
+                            fullContent: "In the digital world, &quot;cybersecurity&quot; or &quot;information security&quot; has become an important issue that companies and individuals must face. Cybersecurity covers a series of operational specifications and methods aimed at maintaining the operation of IT systems, protecting information security, and resisting various potential risks. However, with the rapid development of technology, especially the popularity of AI and the Internet of Things (IoT), network security is facing unprecedented challenges. These emerging technologies not only change the frequency and sophistication of cyberattacks, but also introduce new security threats, such as deepfakes or self-evolving malware. How these technologies are used to carry out network attacks and why they pose challenges to existing network security strategies are issues that we need to explore in depth.<br><br>The main task of network security is to ensure that various types of systems can resist possible attacks at all levels during operation, so as to ensure that the continued operation of the system will not be jeopardized. At the same time, network security also needs to ensure that data will not be stolen by hackers during data transmission and storage. Network security can be further subdivided into several levels, including Network Security, Application Security, and Data Storage Security. These are to ensure the security of information and prevent it from being stolen or damaged during transmission or storage.<br><br>The advent of the AI ​​era has brought some challenges and hidden worries to network security. Generative AI and machine learning are increasing the frequency and sophistication of cyberattacks, putting new pressures on companies. This technology allows cybercriminals to launch sophisticated and stealthy attacks, such as deepfakes or self-evolving malware, to disrupt systems at scale. The widespread use of AI may lead to accidental data leakage, which also brings unprecedented challenges. For example, adversaries can exploit large language models to increase attack efficiency and exploit additional vulnerabilities introduced by the model. The deployment of large language models requires rethinking the way security is approached. This is a more dynamic, interactive and customized process. Not only do we need to take security into account during the design phase – ensuring we build secure models and prevent training data from being contaminated (Data Poisoning) – but we need to continuously evaluate and monitor the system after deployment to ensure it is safe, secure and ethical.<br><br>The advent of the Internet of Things (IoT) era has also brought some special challenges and concerns to network security. The sheer number of IoT devices and their integration into public life have made IoT devices a coveted target for hackers. These devices can contain many vulnerabilities, and because they are often connected to the network, they can be targets for attacks. Secondly, IoT devices may collect and transmit large amounts of data, including some sensitive personal information. If the security measures on these devices are insufficient, data leakage may result. Furthermore, many IoT devices may not be regularly updated or patched, making them more vulnerable to attacks. For example, some devices may not receive automatic updates, or users may not know how to update their devices. The IoT industry lacks consistent security standards and specifications, making it more difficult to protect these devices from attacks.<br><br>Important aspects of AI security include AI trust, AI ethical application and AI network security. AI trust involves the degree of people's trust in the AI ​​system, including the transparency and explainability of its decision-making process, as well as the impartiality and fairness of its decision-making. The ethical application of AI involves whether the use of AI technology is consistent with moral and social values. For example, AI should avoid bias and discrimination and respect users’ privacy and data rights. In addition, the application of AI should also consider its impact on society and the economy to avoid unfair results. AI network security involves the security of the AI ​​system itself and how AI can be used to enhance network security.<br><br>Facing the cybersecurity challenges in the AI ​​and IoT era, we need to adopt a series of strategies and measures. We need to strengthen cybersecurity education and training for the public and professionals, raise people's awareness of cybersecurity threats, and provide the necessary skills and knowledge to defend against these threats. Develop and enforce stricter regulations to protect individuals and organizations from the threat of cyberattacks. Ensuring that AI is used responsibly and ethically and requires appropriate regulatory mechanisms to prevent abuse, strategic investments to protect data, including investment in data security technology, and the establishment of effective data management policies and procedures.<br><br>In this era of rapid change, CIOs and CISOs need to pay close attention to changes in technology and regulations and ensure that the organization can comply with the latest regulations, establish a company culture that values ​​cybersecurity, and find innovative ways to attract and retain cybersecurity Professional talents. In addition, strategic thinking is needed to deal with possible risks and challenges, including geopolitical changes and the impact of emerging technologies. Ensure their organizations have adequate resources to protect themselves from cyberattacks and continue to invest in data security and management technologies and policies.<br><br>Overall, cybersecurity is an evolving field that requires us to continually learn, adapt, and innovate. Only in this way can we effectively protect our information systems and ensure the security and prosperity of our digital world."
+                        },
+                        {
+                            id: 7,
+                            title: "The Key to Business Success: A Solid Foundation and Precise Strategy",
+                            excerpt: "Building Strength and Strategy for Sustainable Growth and Success",
+                            image: "img/The-Key-to-Business-Success--A-Solid-Foundation-and-Precise-Strategy.jpg",
+                            fullContent: "Today, let's discuss the key points of business operations. In terms of business operations, I understand the success of a company does not solely depend on speed, but rather on a solid foundation and precise strategy. This is like the 'speed' in martial arts, which is built upon diligent training and strong capabilities, not just sheer velocity. Similarly, the development pace of a company is based on robust management and accurate growth strategies.<br><br>If a company only pursues speed while neglecting to strengthen its internal management and constitution, it may fall into chaos as it expands, possibly leading to a decline in revenue or even business failure. Therefore, companies need to eliminate the bad habit of merely 'only seeking speed' and focus on accumulating strength and capabilities, reinforcing their business constitution with solid management and precise development strategies. Only when a company's capabilities are enhanced will its development pace naturally increase. A company can experience explosive growth when it has accumulated enough exceptional strength and energy, and only then will it have the managerial strength to sustain such growth without losing control due to high growth. This is the growth cycle of a company.<br><br>In summary, the success of a company does not solely depend on speed, but rather on a solid foundation and precise strategy. Only when a company's capabilities are enhanced will its development pace naturally increase, which is the key to sustainable and continuous excellence.<br><br>We can see that many well-known companies, such as Apple, Google, and Amazon, have achieved success through solid foundations and precise strategies. They not only focus on product innovation and quality but also pay attention to internal management and employee training, allowing them to maintain a leading position in the highly competitive market. On the other hand, we have also seen companies like Blockbuster and Kodak, which pursued speed too much and neglected to strengthen their internal management and constitution, resulting in their downfall. Therefore, we need to learn from these cases, eliminate the bad habit of 'only seeking speed' and focus on accumulating strength and capabilities. This goal can be achieved by providing high-quality products and services, enhancing employee's skills and knowledge, and implementing effective management strategies. Only in this way can companies ensure long-term success and continuous development."
+                        },
+                        {
+                            id: 8,
+                            title: "Business practices to improve talent availability over the next 5 years",
+                            excerpt: "Creating a Fair and Inclusive Work Environment to Attract Top Talent.",
+                            image: "img/Business-practices-to-improve-talent-availability-over-the-next-5-years.jpg",
+                            fullContent: "1. Employability and Learning Culture:<br>Optimize talent development and promotion processes to enhance employees’ career development opportunities.<br><br>2. Fairness in Wages and Technology:<br>Provide competitive salaries to attract and retain excellent talent.<br><br>3. Employability and Learning Culture:<br>Implement effective retraining and skill enhancement programs to meet rapidly changing business needs.<br><br>4. Health and Well-being:<br>Clearly articulate the company’s business goals and impacts to improve employee job satisfaction and loyalty.<br><br>5. Flexibility and Protection:<br>Offer more remote and hybrid work opportunities to meet employees’ work-life balance needs.<br><br>6. Cross-Cutting Enablers:<br>Improve internal communication strategies to enhance employee engagement and work efficiency.<br><br>7. Cross-Cutting Enablers:<br>Improve reporting of personnel and cultural indicators to enhance organizational transparency and trust.<br><br>8. Diversity, Fairness, and Inclusion:<br>Implement policies and plans for diversity, fairness, and inclusion to create an inclusive work environment.<br><br>9. Health and Well-being:<br>Provide comprehensive health and well-being support to improve employee job satisfaction and productivity.<br><br>10. Health and Well-being:<br>Improve working hours and overtime to prevent employee burnout.<br><br>11. Diversity, Equity, and Inclusion:<br>Tap into a diverse talent pool to enhance the organization’s innovation capability and competitiveness.<br><br>12. Flexibility and Protection:<br>Enhance workplace safety to protect employees’ physical and mental health.<br><br>13. Flexibility and Protection:<br>Provide more cross-border remote work opportunities to meet global talent needs.<br><br>14. Employability and Learning Culture:<br>Eliminate degree requirements, implement skill-based recruitment to attract a broader talent pool.<br><br>15. Flexibility and Protection:<br>Provide childcare services for working parents to support employees’ family needs.<br><br>16.Fairness in Wages and Technology:<br>Support worker representatives to ensure employee rights are protected."
+                        },
+						{
+							id: 9,
+							title: "5 ISO standardize AI terminology and concepts",
+							excerpt: "Provide a framework for AI systems using ML techniques, and offer risk management and AI management for organizations utilizing AI. ",
+							image: "img/5-ISO-standardize-AI-terminology-and-concepts.jpg",
+							fullContent: "ISO/IEC 22989:2022<br>This standard establishes AI terminology and describes concepts in the AI field. It can be used to develop other standards and support communication between different stakeholders.<br><br>ISO/IEC 23053:2022<br>This standard establishes an artificial intelligence (AI) and machine learning (ML) framework for describing general AI systems using ML techniques. The framework describes the system components and their functions in the AI ecosystem.<br><br>ISO/IEC 23984:2023<br>This standard provides risk management guidance for organizations developing, producing, deploying, or using products, systems, and services utilizing artificial intelligence (AI). The guidance also aims to assist organizations in integrating risk management into their activities and functions related to AI. <br><br>ISO/IEC 42001:2023<br>This standard provides guidance for organizations to establish, implement, maintain, and continually improve an Artificial Intelligence Management System (AIMS). This standard is the first to offer a certifiable management system specifically for AI. <br><br>ISO/IEC 23894:2023<br>This standard provides guidance on risk management for artificial intelligence (AI). It aims to help organizations understand and manage the risks of AI systems."
+						},
+						{
+							id: 10,
+							title: "10 Core Future Skills Leading Innovation and Transformation in the Digital Age",
+							excerpt: "Empowering Employees to Thrive in a Rapidly Changing World.",
+							image: "img/10-Core-Future -Skills-Leading-Innovation-and-Transformation-in the-Digital-Age.jpg",
+							fullContent: "10 Core Future Skills Leading Innovation and Transformation in the Digital Age<br><br>1. Curiosity and Lifelong Learning:<br>Businesses believe that the importance of this socio-emotional attitude is rapidly growing. This shows that businesses emphasize that employees need to be resilient and reflective, and embrace a culture of lifelong learning, as the lifespan of their skills is shortening.<br><br>2. Resilience, Flexibility, and Agility:<br>These traits can help employees quickly adapt and recover when facing changes and challenges.<br><br>3. Intrinsic Motivation and Self-Awareness:<br>These traits can help employees understand their own needs and goals and drive them forward.<br><br>4. Systems Thinking:<br>This way of thinking can help employees understand and solve complex problems.<br><br>5. AI and Big Data:<br>These technologies can help employees process and analyze a large amount of information and gain valuable insights from it.<br><br>6. Talent Management:<br>This skill can help employees effectively manage and develop their teams.<br><br>7. Service Orientation and Customer Service:<br>These skills can help employees provide high-quality services and meet customer needs.<br><br>8. Analytical Thinking:<br>This way of thinking can help employees understand and solve problems.<br><br>9. Leadership and Social Influence:<br>These skills can help employees influence and lead their teams.<br><br>10. Dependability and Attention to Detail:<br>These traits can help employees provide high-quality work."
+						}
+                    ]
+                }
+            },
+            computed: {
+                paginatedPosts() {
+                    const start = (this.currentPage - 1) * this.postsPerPage;
+                    const end = start + this.postsPerPage;
+                    return this.blogPosts.slice(start, end);
+                },
+                totalPages() {
+                    return Math.ceil(this.blogPosts.length / this.postsPerPage);
+                }
+            },
+			methods: {
+				initAnimations() {
+					gsap.registerPlugin(ScrollTrigger);
+
+					gsap.from('.blog-header', {
+						opacity: 0,
+						y: 50,
+						duration: 1,
+						ease: "power3.out",
+						scrollTrigger: {
+							trigger: '.blog-header',
+							start: 'top bottom-=100',
+						}
+					});
+
+					gsap.utils.toArray('.blog-post').forEach((post, index) => {
+						gsap.from(post, {
+							opacity: 1,
+							y: 50,
+							duration: 1,
+							delay: index * 0.5,
+							ease: "power3.out",
+							scrollTrigger: {
+								trigger: post,
+								start: 'top bottom > 50',
+							}
+						});
+					});
+				},
+				showFullArticle(post) {
+					this.currentArticle = post;
+					this.currentView = 'fullArticle';
+					window.scrollTo(0, 0);
+					this.$nextTick(() => {
+						gsap.from('.full-article', {
+							opacity: 0,
+							y: 50,
+							duration: 0.8,
+							ease: "power3.out"
+						});
+					});
+				},
+				backToBlogList() {
+					this.currentView = 'blogList';
+					this.currentArticle = null;
+					window.scrollTo(0, 0);
+					this.$nextTick(() => {
+						this.initAnimations();
+					});
+				},
+				changePage(pageNumber) {
+					this.currentPage = pageNumber;
+					window.scrollTo(0, 0);
+					this.$nextTick(() => {
+						this.initAnimations();
+					});
+				},
+				toggleMenu() {
+					this.menuActive = !this.menuActive;
+				},
+				setActivePage(pageId) {
+					this.activePage = pageId;
+					this.menuActive = false;
+				},
+				changeLanguage() {
+					if (this.selectedLanguage === 'en') {
+						window.location.href = 'blog.html';
+					} else if (this.selectedLanguage === 'zh') {
+						window.location.href = 'blog-zh.html';
+					}
+				}
+			},
+			mounted() {
+				this.$nextTick(() => {
+					this.initAnimations();
+				});
+			}
+			}).mount('#app')
+    </script>
+</body>
+</html>

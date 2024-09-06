@@ -1,0 +1,595 @@
+<html><head><base href="https://quantumwings.github.io/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JER LIAW - 部落格</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+<style>
+    :root {
+        --primary-color: #2C3E50;
+        --secondary-color: #ECF0F1;
+        --accent-color: #E67E22;
+        --text-color: #34495E;
+        --background-color: #FDFEFE;
+    }
+    
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Montserrat', sans-serif;
+        color: var(--text-color);
+        background-color: var(--background-color);
+        scroll-behavior: smooth;
+    }
+    
+    header {
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 15px 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    header.scrolled {
+        background-color: rgba(255, 255, 255, 0.98);
+    }
+    
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .logo {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+    
+    .nav-links {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-links li {
+        margin-left: 30px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .nav-links a {
+        text-decoration: none;
+        color: var(--primary-color);
+        font-weight: 400;
+        transition: color 0.3s ease;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    .nav-links a:hover {
+        color: var(--accent-color);
+    }
+    
+    main {
+        max-width: 1200px;
+        margin: 100px auto 50px;
+        padding: 0 20px;
+    }
+    
+    .blog-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    
+    .blog-header h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 48px;
+        color: var(--primary-color);
+    }
+    
+    .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+    
+    .blog-post {
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    
+    .blog-post:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    
+    .blog-post img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
+    
+    .blog-content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: space-between;
+    }
+    
+    .blog-content h2 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: var(--primary-color);
+        height: 60px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    
+    .blog-content p {
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--text-color);
+        margin-bottom: 15px;
+        height: 80px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+    }
+    
+    .read-more {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: var(--accent-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+        align-self: flex-start;
+        margin-top: auto;
+    }
+    
+    .read-more:hover {
+        background-color: #D35400;
+    }
+    
+    .full-article {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .full-article img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .full-article h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 36px;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+    }
+    
+    .full-article p {
+        font-size: 16px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+    
+    .back-to-blog {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 10px 20px;
+        background-color: var(--accent-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .back-to-blog:hover {
+        background-color: #D35400;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+    }
+    
+    .pagination button {
+        background-color: var(--secondary-color);
+        border: none;
+        color: var(--primary-color);
+        padding: 10px 15px;
+        margin: 0 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .pagination button:hover, .pagination button.active {
+        background-color: var(--accent-color);
+        color: white;
+    }
+    
+    footer {
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        text-align: center;
+        padding: 30px 0;
+        margin-top: 50px;
+    }
+    
+    .social-icons {
+        margin-bottom: 15px;
+    }
+    
+    .social-icons a {
+        color: var(--secondary-color);
+        font-size: 20px;
+        margin: 0 10px;
+        transition: color 0.3s ease;
+    }
+    
+    .social-icons a:hover {
+        color: var(--accent-color);
+    }
+
+	.language-selector {
+        display: flex;
+        align-items: center;
+        position: relative;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+    }
+    
+    .language-selector select {
+        appearance: none;
+        background-color: transparent;
+        border: none;
+        padding: 5px 20px 5px 5px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--primary-color);
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    
+    .language-selector::after {
+        content: '\25BC';
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        transform: translateY(-50%);
+        pointer-events: none;
+        font-size: 12px;
+        color: var(--primary-color);
+    }
+	
+	.menu-toggle {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+    
+    @media (max-width: 1024px) {
+        .blog-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 200px;
+            padding: 20px;
+        }
+        
+        .nav-links.active {
+            display: flex;
+        }
+        
+        .nav-links li {
+            margin: 10px 0;
+        }
+        
+        .menu-toggle {
+            display: block;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .blog-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .full-article {
+            padding: 20px;
+        }
+    }
+</style>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <nav>
+                <a href="#" class="logo">JER LIAW</a>
+                <ul class="nav-links" :class="{ 'active': menuActive }">
+                    <li v-for="item in menuItems" :key="item.id">
+                        <a :href="item.link" :class="{ active: item.id === activePage }" @click="setActivePage(item.id)">{{ item.name }}</a>
+                    </li>
+                    <li class="language-selector">
+                        <select v-model="selectedLanguage" @change="changeLanguage">
+                            <option value="en">EN</option>
+                            <option value="zh">中文</option>
+                        </select>
+                    </li>
+                </ul>
+                <div class="menu-toggle" @click="toggleMenu">&#9776;</div>
+            </nav>
+        </header>
+
+        <main>
+            <div v-if="currentView === 'blogList'">
+                <div class="blog-header">
+                    <h1>前瞻洞察部落格</h1>
+                </div>
+                <div class="blog-grid">
+                    <article v-for="post in paginatedPosts" :key="post.id" class="blog-post">
+                        <img :src="post.image" :alt="post.title">
+						<div class="blog-content">
+							<h2>{{ post.title }}</h2>
+							<!-- Using v-html to render the excerpt as HTML -->
+							<p v-html="post.excerpt"></p>
+							<a href="#" class="read-more" @click.prevent="showFullArticle(post)">閱讀更多</a>
+						</div>
+                    </article>
+                </div>
+                <div class="pagination">
+                    <button v-for="pageNumber in totalPages" :key="pageNumber" @click="changePage(pageNumber)" :class="{ active: currentPage === pageNumber }">
+                        {{ pageNumber }}
+                    </button>
+                </div>
+            </div>
+            
+			<div v-else-if="currentView === 'fullArticle'" class="full-article">
+				<img :src="currentArticle.image" :alt="currentArticle.title">
+				<h1>{{ currentArticle.title }}</h1>
+				<!-- Using v-html to render the full content as HTML -->
+				<p v-html="currentArticle.fullContent"></p>
+				<a href="#" class="back-to-blog" @click.prevent="backToBlogList">返回部落格列表</a>
+			</div>
+        </main>
+
+        <footer>
+            <p>&copy; {{ new Date().getFullYear() }} Jer Liaw 保留所有權利。</p>
+        </footer>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                return {
+                    activePage: 'blog',
+                    menuActive: false,
+                    currentView: 'blogList',
+                    currentArticle: null,
+					selectedLanguage: 'zh',
+                    currentPage: 1,
+                    postsPerPage: 6,
+					menuItems: [
+						{ id: 'home', name: '首頁', link: 'index-zh.html' },
+						{ id: 'portfolio', name: '作品集', link: 'portfolio-zh.html' },
+						{ id: 'about', name: '關於', link: 'about-zh.html' },
+						{ id: 'books', name: '書籍', link: 'books-zh.html' },
+						{ id: 'blog', name: '部落格', link: 'blog-zh.html' },
+						{ id: 'contact', name: '聯絡', link: 'contact-zh.html' },
+					],
+                    blogPosts: [
+                        {
+							id: 1,
+							title: "虛擬戰場：網路攻擊的全景",
+							excerpt: "全面分析現代網路攻擊類型，從基本威脅到進階技術挑戰",
+							image: "img/Virtual-battlefield-A-panoramic-view-of-cyberattacks.jpg",
+							fullContent: "在這個數位化日益加速的時代，資訊安全已成為企業與個人不可或缺的一部分。隨著科技的進步，攻擊者不斷演變他們的策略和工具，對我們的數位生活構成前所未有的威脅。以下是按類型分類的關鍵資訊安全威脅總結，旨在幫助了解並防範這些日益複雜的攻擊方法。保持警惕和更新是確保我們數位生活安全的關鍵。🔒<br><br>進階持續威脅（APT）：<br>攻擊者在網路中潛伏很長時間，靜默竊取數據。<br><br>暴力破解攻擊：<br>以自動化方式嘗試大量的用戶名和密碼組合。<br><br>指揮與控制攻擊：<br>攻擊者建立與受害者系統的通信，控制並發送命令。<br><br>跨站腳本攻擊（XSS）：<br>通過將惡意腳本注入網頁來攻擊用戶。<br><br>DNS放大攻擊：<br>利用DNS伺服器的反射功能放大攻擊流量。<br><br>DNS劫持：<br>改變DNS解析過程，將用戶導向惡意網站。<br><br>DNS隧道：<br>通過DNS查詢隱藏數據傳輸。<br><br>拒絕服務（DoS）攻擊：<br>通過大量流量攻擊目標。<br><br>隨機下載攻擊：<br>自動從惡意網站下載並執行惡意軟體。<br><br>中間人攻擊：<br>攻擊者攔截並修改通信方之間的數據。<br><br>Meltdown和Specter攻擊：<br>利用處理器設計缺陷竊取系統記憶體中的數據。<br><br>網路嗅探：<br>監控網路流量以獲取敏感信息。<br><br>哈希傳遞：<br>使用哈希而非密碼進行身份驗證。<br><br>SQL注入：<br>通過將惡意SQL代碼注入資料庫查詢。<br><br>供應鏈攻擊：<br>攻擊供應鏈中的一個環節，影響整個系統。<br><br>打字錯誤攻擊：<br>利用用戶輸入錯誤的URL。<br><br>水坑攻擊：<br>在目標群體經常訪問的網站上設置陷阱。<br><br>零日漏洞利用：<br>利用尚未披露的軟體漏洞。<br><br>API攻擊：<br>針對應用程式介面的安全漏洞。<br><br>無線攻擊：<br>對無線網路的攻擊。<br><br>AWS攻擊：<br>利用配置錯誤或安全漏洞。<br><br>雲端加密挖礦：<br>犯罪分子利用他人的雲端資源進行加密貨幣挖礦。<br><br>可疑雲端儲存活動：<br>監控並識別異常的雲端儲存使用模式。<br><br>雲端安全威脅：<br>針對雲端計算環境的安全威脅。<br><br>帳號劫持：<br>黑客通過竊取登入憑證來控制用戶帳號。<br><br>商業電子郵件詐騙（BEC）：<br>通過模仿高級主管進行電子郵件詐騙。<br><br>憑證洩露：<br>洩露的登入憑證可能被用來進行進一步攻擊。<br><br>憑證轉儲：<br>攻擊者提取並外洩大量用戶憑證。<br><br>憑證重複使用攻擊：<br>利用用戶在多個服務上重複使用相同憑證的習慣。<br><br>加密劫持攻擊：<br>在受害者的裝置上秘密進行加密貨幣挖礦。<br><br>內部威脅：<br>來自組織內部的人員的惡意或疏忽行為。<br><br>偽裝攻擊：<br>攻擊者冒充他人以獲取未授權訪問。<br><br>網路釣魚：<br>通過虛假的通信欺騙用戶提供敏感信息。<br><br>網路釣魚有效負載：<br>用於執行惡意活動的代碼或數據。<br><br>矛釣魚：<br>針對特定個人或組織的網路釣魚攻擊。<br><br>鯨釣魚（Whaling）：<br>針對高級主管的網路釣魚攻擊。<br><br>特權用戶妥協：<br>攻擊者控制擁有廣泛訪問權限的用戶。<br><br>SIM卡劫持：<br>通過SIM卡漏洞，攻擊者可以接管手機號碼及相關服務。<br><br>社會工程攻擊：<br>利用人類心理的弱點來欺騙受害者揭露敏感信息或執行特定行動。<br><br>網頁會話Cookie竊取：<br>竊取用戶的會話Cookie以冒充用戶身份。<br><br>應用程式存取令牌：<br>攻擊者可能竊取這些令牌以獲得未授權的應用程式訪問。<br><br>帳單詐騙：<br>通過偽造或修改票據進行詐騙。<br><br>物聯網漏洞：<br>物聯網裝置中的安全漏洞可能被用於攻擊。<br><br>宏病毒：<br>通過宏傳播的病毒可以在文件打開時執行惡意代碼。<br><br>惡意PowerShell：<br>使用PowerShell執行惡意活動，通常不會觸發安全警報。<br><br>惡意軟體：<br>包括病毒、蠕蟲、木馬等，旨在損壞或竊取數據。<br><br>勒索軟體：<br>加密用戶數據並要求贖金以解鎖。<br><br>路由器和基礎設施攻擊：<br>對網路硬體的攻擊可能造成廣泛的服務中斷。<br><br>Shadow IT：<br>未經正式批准的員工使用技術可能會帶來安全風險。<br><br>間諜軟體：<br>隱藏在用戶裝置上的軟體，用於監控和傳輸個人數據。<br><br>開放重定向：<br>通過未經驗證的重定向將用戶導向惡意網站。<br><br>人工智慧攻擊者：<br>利用AI進行更精確和自動化的攻擊。<br><br>網路安全技能缺口：<br>專業網路安全人才短缺可能導致防禦能力不足。<br><br>車輛駭客攻擊：<br>對現代汽車電子系統的攻擊。<br><br>移動裝置威脅：<br>針對智慧型手機和平板電腦的安全威脅。<br><br>雲端安全威脅：<br>對雲端計算環境的安全威脅。<br><br>國家支持的攻擊：<br>由國家支持的黑客或團體進行的網路攻擊。<br><br>數據中毒攻擊：<br>通過污染訓練數據影響機器學習模型。<br><br>SEO毒化：<br>通過操縱搜索引擎優化將用戶導向惡意網站。<br><br>量子威脅：<br>量子計算的發展可能對現有的加密技術構成威脅。<br><br>深偽技術：<br>使用AI技術創造看似真實的虛假影像或錄音。"
+						},
+						{
+							id: 2,
+							title: "全球首個人工智慧決議：推動人權保護與數據安全",
+							excerpt: "聯合國大會通過新決議，要求各國保護人權、彌合數位鴻溝，並監控人工智慧風險",
+							image: "img/1711423070655.jpg",
+							fullContent: "聯合國大會於2024年3月21日通過了全球首個人工智慧決議，鼓勵各國保護人權、保護個人數據，並監控人工智慧相關的風險。該決議強調了縮小發達國家與發展中國家之間數位鴻溝的必要性，確保所有國家在人工智慧的討論與發展上處於平等的地位。此外，該決議指出，不當或惡意設計、開發或使用的人工智慧系統可能會侵犯人權、加劇偏見，並對個人數據保護構成威脅。"
+						},
+						{
+                            id: 3,
+                            title: "人工智慧：風險、挑戰與未來",
+                            excerpt: "深入探討人工智慧的挑戰與風險，並了解如何在未來的科技革命中保持安全與彈性",
+                            image: "img/Artificial-Intelligence--Risks-Challenges-and-the-Future.jpg",
+                            fullContent: "在人工智慧（AI）領域，數據已成為新的貨幣。在這場全球競賽中，擁有最多數據的組織將可能脫穎而出。然而，人工智慧無法解決世界上的所有問題。人工智慧的成功實施與應用取決於數據的數量和質量。收集大量高品質的數據僅是人工智慧生命周期的一部分。組織還必須能夠從數據中提取有價值的信息，並將其轉化為實用的見解。因此，組織必須不斷利用最新數據來訓練人工智慧模型，以避免模型幻覺和漂移。這裡存在著知識差距。這種存在於理解人工智慧的安全專業人士和那些不了解人工智慧的人之間的差距，將成為威脅行為者力量平衡變化的重要原因。人工智慧的存在是不可避免的，我們必須問的是：安全領導者和專業人士是否擁有所需的技能，或是否願意投入時間來提升技能，學習如何應對這場前所未有的科技革命？掌握這項技術的力量以及防禦它，均依賴於理解它及其局限性的能力。<br><br>對抗人工智慧的唯一方法是使用它，但在此之前，你必須掌握基礎知識。防禦人工智慧最終意味著防禦所有被索引的人類知識。在這個信息無限的時代，安全專業人士必須保護他們的組織，面對前所未有的挑戰。換句話說，如果我們一直在努力做好基本的事情，過度依賴人工智慧解決問題將大致是良性的。減輕攻擊的最佳方法是確保安全的基本控制措施得到處理。我們常常追逐像人工智慧這樣的閃亮事物，而人工智慧最好的防禦是強大的基本控制。因此，當討論「設計安全」時，我們不僅需要考慮人工智慧工具和模型，還需將其作為重點。如果人工智慧是未來組織和關鍵基礎設施進行業務、運營、開發服務等的不可避免的未來，那麼安全必須從一開始就內建於其中。人工智慧必須以解決許多網路歷史上的關切問題的方式進行設計和實施。<br><br>如果我們在構建治理過程時僅看到安全，而在其生產、運營或調整過程中從未看到安全，模型的推理通常會被忽視，但它是安全的關鍵部分。許多商業領袖認為人工智慧會立即、自動地解決問題，並且會神奇地運作。例如，一個模型能夠「做對事」取決於準確性，而準確性取決於對模型的訓練和減少幻覺的機會。如果我們繼續優先考慮創造力和速度，而不是準確性，則大型語言模型將會陷入幻覺。確保模型在其整個生命周期（構建、測試和生產）中的安全將成為未來幾年安全團隊和監管機構的重點。<br><br>當我們創造出顯著改變商業運作方式的新技術時，往往會出現過度興奮和半滿玻璃的心態——通常僅專注於呈現的機會，而忽視風險。人工智慧就是這種循環的受害者。然而，好消息是，行業仍處於人工智慧的煙霧與鏡像階段，測試其力量並探索用例。我們現在要么花時間學習識別和處理潛在信號的技術，要么成為黑客利用的低垂果實。最重要的是，我們不能讓創新和興奮超越安全性和韌性。"
+                        },
+                        {
+                            id: 4,
+                            title: "未來五年預期增長最快的十大職業",
+                            excerpt: "揭示塑造未來工作的新興職業，涉及科技、數據與可持續性",
+                            image: "img/Top-10-Fastest-Growing-Jobs-Expected-in-the-Next-Five-Years.jpg",
+                            fullContent: "1. 人工智慧與機器學習專家：<br>在科技迅速發展的背景下，人工智慧與機器學習專家越來越受到青睞。他們的角色包括開發和實施人工智慧模型與算法，以自動化流程和生成洞察。<br><br>2. 可持續發展專家：<br>隨著全球對環境問題的意識提升，可持續發展專家被要求協助組織減少環境影響並推廣可持續的實踐。<br><br>3. 商業智能分析師：<br>這些專業人士在幫助企業做出數據驅動的決策方面發揮關鍵作用。他們分析數據趨勢和模式，以提供可行的見解。<br><br>4. 資訊安全分析師：<br>隨著網絡威脅的增加，資訊安全分析師對於保護敏感信息和維護IT系統的完整性至關重要。<br><br>5. 金融科技工程師：<br>金融行業正在經歷數位轉型，而金融科技工程師位於這一變革的前沿。他們開發和實施創新的金融技術。<br><br>6. 數據分析師和科學家：<br>這些專業人士將原始數據轉化為有意義的信息，用於戰略決策。他們的技能在各行各業中都很搶手。<br><br>7. 機器人工程師：<br>隨著自動化的普及，機器人工程師需要設計、測試和實施機器人系統。<br><br>8. 電機科技工程師：<br>這些工程師參與電氣和電子技術的設計和開發，這是一個隨著科技進步而持續增長的領域。<br><br>9. 農業設備操作員：<br>隨著精準農業的興起，能夠操作先進農業設備的操作員需求增加。<br><br>10. 數位轉型專家：<br>隨著企業適應數位時代，這些專家引導將數位技術整合到企業各個領域的過程。<br><br>這些職位代表了科技、數據和可持續性交集，反映了未來幾年塑造職場的關鍵趨勢。"
+                        },
+                        {
+                            id: 5,
+                            title: "企業轉型之路：人工智慧的挑戰與策略",
+                            excerpt: "透過解決關鍵挑戰和實施戰略解決方案，導航成功的AI轉型之路",
+                            image: "img/The-Road-to-Corporate-Transformation-Challenges-and-Strategies-of-Artificial-Intelligence.jpg",
+                            fullContent: "人工智慧（AI）在數位時代已成為企業轉型的重要驅動力。然而，對許多公司而言，採用AI並非易事。公司在AI轉型過程中面臨各種挑戰。例如，數據不足或數據分散在各部門間，使得數據整合變得困難。核心業務領域中的AI相關技術尚未成熟，導致公司難以利用AI優化業務流程。此外，公司內部對AI的理解不足和招聘AI相關人才的困難，也是阻礙AI轉型的重要因素。<br><br>為了解決這些問題，公司需要在三個層級提升AI素養：<br>CXO層級：了解AI的能力與限制，反思現有案例並準備自身資源，組建核心轉型團隊，選擇合適的中高層管理人員參加行業專屬課程，設計AI發展藍圖及議題選擇工作。<br><br>管理層級：管理層需要全面的AI素養和跨行業交流，行業需要專屬領域應用交流和實際學習。<br><br>工程師層級：工程師需要在編程語言、預測模型、物件檢測、智能製造等各領域進行技術項目實施。<br><br>公司需要明確AI轉型目標，根據這些目標選擇合適的AI應用案例。確定在AI轉型過程中的位置，並根據此位置制定相應的策略。考慮AI轉型的投資規模，並根據此規模分配資源。<br><br>在成功引入AI的過程中，以下步驟值得注意：<br>數據整頓：確保數據的完整性和準確性，並建立有效的數據管理和共享機制。<br><br>有意識的實施：明確AI的應用範圍和目標，並根據這些目標選擇合適的AI技術和工具。<br><br>識別倡導者以指導方向：找到能夠推動AI轉型的內部倡導者，並給予他們足夠的權限和資源。<br><br>優先進行技能培訓：對內部人才進行AI技能培訓，並在必要時尋求外部專業支持。<br><br>幫助員工養成新工作習慣：鼓勵員工接受新的工作和思考方式，並營造支持創新和學習的工作環境。<br><br>AI轉型是一個複雜的過程，需要公司具備明確的目標、策略和資源分配。為了成功進行AI轉型，必須克服上述挑戰並採取相應的策略。公司還需要持續學習和優化，以在AI轉型之路上取得更大成功。"
+                        },
+                        {
+                            id: 6,
+                            title: "網路安全：挑戰、策略與未來",
+                            excerpt: "以有效的策略應對新興威脅，確保數位未來的安全",
+                            image: "img/Cybersecurity--Challenges-Strategies-and-the-Future.jpg",
+                            fullContent: "在數位世界中，「網路安全」或「資訊安全」已成為公司和個人必須面對的重要議題。網路安全涵蓋了一系列操作規範和方法，旨在維護IT系統的運行、保護資訊安全，以及抵抗各種潛在風險。然而，隨著科技的迅速發展，尤其是人工智慧（AI）和物聯網（IoT）的普及，網路安全面臨前所未有的挑戰。這些新興技術不僅改變了網路攻擊的頻率和複雜性，還帶來了新的安全威脅，如深度偽造（deepfakes）或自我演化的惡意軟體。這些技術如何被用來發動網路攻擊，以及為什麼它們對現有網路安全策略構成挑戰，是我們需要深入探討的問題。<br><br>網路安全的主要任務是確保各種系統在運行過程中能夠抵禦可能的攻擊，以確保系統的持續運行不會受到威脅。同時，網路安全還需要確保數據在傳輸和儲存過程中不會被黑客竊取。網路安全可以進一步細分為幾個層級，包括網路安全、應用安全和數據儲存安全。這些層級旨在確保資訊的安全，防止在傳輸或儲存過程中被竊取或損壞。<br><br>AI時代的到來為網路安全帶來了一些挑戰和隱憂。生成式AI和機器學習提高了網路攻擊的頻率和複雜性，對企業造成了新的壓力。這些技術使得網路犯罪分子能夠發動精密和隱蔽的攻擊，如深度偽造或自我演化的惡意軟體，以大規模地干擾系統。AI的廣泛使用可能導致意外的數據洩露，也帶來了前所未有的挑戰。例如，對手可能利用大型語言模型提高攻擊效率，並利用模型引入的額外漏洞。大型語言模型的部署需要重新思考安全的處理方式。這是一個更具動態性、互動性和定制化的過程。我們不僅需要在設計階段考慮安全——確保我們構建的模型是安全的，並防止訓練數據受到污染（數據中毒）——還需要在部署後持續評估和監控系統，以確保其安全、可靠和符合道德。<br><br>物聯網（IoT）時代的到來也為網路安全帶來了一些特殊的挑戰和關切。大量的IoT設備及其融入公共生活，使得IoT設備成為黑客垂涎的目標。這些設備可能包含許多漏洞，且由於它們通常連接到網路，可能成為攻擊的目標。此外，IoT設備可能收集和傳輸大量數據，包括一些敏感的個人資訊。如果這些設備的安全措施不足，可能會導致數據洩露。此外，許多IoT設備可能沒有定期更新或修補，使得它們更容易受到攻擊。例如，一些設備可能無法自動更新，或用戶可能不知道如何更新設備。IoT行業缺乏一致的安全標準和規範，使得保護這些設備免受攻擊變得更加困難。<br><br>AI安全的重要方面包括AI信任、AI道德應用和AI網路安全。AI信任涉及人們對AI系統的信任程度，包括其決策過程的透明度和可解釋性，以及其決策的公正性和公平性。AI的道德應用涉及AI技術的使用是否符合道德和社會價值。例如，AI應避免偏見和歧視，並尊重用戶的隱私和數據權利。此外，AI的應用還應考慮對社會和經濟的影響，以避免不公平的結果。AI網路安全涉及AI系統本身的安全，以及如何利用AI增強網路安全。<br><br>面對AI和IoT時代的網路安全挑戰，我們需要採取一系列策略和措施。我們需要加強對公眾和專業人士的網路安全教育和培訓，提高人們對網路安全威脅的認識，並提供必要的技能和知識以防禦這些威脅。制定和執行更嚴格的規範，以保護個人和組織免受網路攻擊的威脅。確保AI的負責任和道德使用，需要適當的監管機制以防止濫用，並進行戰略性投資以保護數據，包括投資數據安全技術，並建立有效的數據管理政策和程序。<br><br>在這個快速變化的時代，首席資訊官（CIO）和首席資訊安全官（CISO）需要密切關注技術和規範的變化，確保組織能夠遵守最新的規範，建立重視網路安全的公司文化，並尋找創新的方法來吸引和留住網路安全專業人才。此外，需要具備戰略性思維來應對可能的風險和挑戰，包括地緣政治變化和新興技術的影響。確保組織擁有足夠的資源來保護自己免受網路攻擊，並持續投資於數據安全和管理技術及政策。<br><br>總的來說，網路安全是一個不斷發展的領域，需要我們不斷學習、適應和創新。只有這樣，我們才能有效保護我們的資訊系統，確保數位世界的安全與繁榮。"
+                        },
+                        {
+                            id: 7,
+                            title: "成功的關鍵：堅實的基礎與精確的策略",
+                            excerpt: "打造力量與策略，實現持續增長與成功",
+                            image: "img/The-Key-to-Business-Success--A-Solid-Foundation-and-Precise-Strategy.jpg",
+                            fullContent: "今天，我們來探討商業運營的關鍵要點。在商業運營方面，我了解到公司的成功不僅僅依賴於速度，更在於堅實的基礎和精確的策略。這就像武術中的「速度」，它是建立在勤奮的訓練和強大的能力之上，而不僅僅是單純的快速。同樣地，一家公司的發展速度是基於強健的管理和準確的增長策略。<br><br>如果一家公司僅僅追求速度，而忽略了加強內部管理和體制，它在擴展時可能會陷入混亂，導致收入下降甚至業務失敗。因此，公司需要消除僅僅「追求速度」的不良習慣，專注於積累力量和能力，通過堅實的管理和精確的發展策略來強化其業務體質。只有當公司的能力得到提升時，它的發展速度才會自然增加。當公司積累了足夠的卓越力量和能量時，它可以經歷爆炸性的增長，只有在這樣的情況下，公司才會擁有管理能力來維持這種增長，而不會因為高速增長而失控。這就是公司的增長週期。<br><br>總結來說，公司的成功不僅僅依賴於速度，更在於堅實的基礎和精確的策略。只有當公司的能力得到提升時，其發展速度才會自然增加，這是實現可持續和持續卓越的關鍵。<br><br>我們可以看到，許多知名公司，如蘋果、谷歌和亞馬遜，都是通過堅實的基礎和精確的策略來實現成功的。他們不僅專注於產品創新和質量，還重視內部管理和員工培訓，使他們能在高度競爭的市場中保持領先地位。另一方面，我們也看到像Blockbuster和Kodak這樣的公司過於追求速度，忽略了加強內部管理和體制，最終導致了它們的衰退。因此，我們需要從這些案例中學習，消除「僅僅追求速度」的不良習慣，專注於積累力量和能力。這一目標可以通過提供高品質的產品和服務、提升員工的技能和知識以及實施有效的管理策略來實現。只有這樣，公司才能確保長期的成功和持續的發展。"
+                        },
+                        {
+                            id: 8,
+                            title: "提升未來五年人才可用性的商業實踐",
+                            excerpt: "創造公平與包容的工作環境，吸引頂尖人才。",
+                            image: "img/Business-practices-to-improve-talent-availability-over-the-next-5-years.jpg",
+                            fullContent: "1. 就業能力與學習文化：<br>優化人才發展和晉升流程，以提升員工的職業發展機會。<br><br>2. 工資公平與技術：<br>提供具有競爭力的薪資，以吸引和留住優秀人才。<br><br>3. 就業能力與學習文化：<br>實施有效的再培訓和技能提升計劃，以滿足快速變化的業務需求。<br><br>4. 健康與福祉：<br>明確闡述公司的業務目標和影響，以提高員工的工作滿意度和忠誠度。<br><br>5. 彈性與保障：<br>提供更多遠端和混合工作的機會，以滿足員工的工作與生活平衡需求。<br><br>6. 跨領域促進因素：<br>改善內部溝通策略，以增強員工參與感和工作效率。<br><br>7. 跨領域促進因素：<br>改善人事和文化指標的報告，以提升組織的透明度和信任感。<br><br>8. 多樣性、公平與包容：<br>實施多樣性、公平和包容的政策和計劃，以創造包容的工作環境。<br><br>9. 健康與福祉：<br>提供全面的健康與福祉支持，以提高員工的工作滿意度和生產力。<br><br>10. 健康與福祉：<br>改善工作時間和加班制度，以防止員工過勞。<br><br>11. 多樣性、公平與包容：<br>挖掘多樣化的人才池，以提升組織的創新能力和競爭力。<br><br>12. 彈性與保障：<br>提升工作場所安全，以保護員工的身體和心理健康。<br><br>13. 彈性與保障：<br>提供更多跨境遠端工作機會，以滿足全球人才需求。<br><br>14. 就業能力與學習文化：<br>取消學位要求，實施以技能為基礎的招聘，以吸引更廣泛的人才池。<br><br>15. 彈性與保障：<br>為工作父母提供育兒服務，以支持員工的家庭需求。<br><br>16. 工資公平與技術：<br>支持工人代表，確保員工權益得到保護。"
+                        },
+						{
+							id: 9,
+							title: "5 個 ISO 標準化人工智慧術語與概念",
+							excerpt: "提供利用機器學習技術的人工智慧系統框架，並為使用人工智慧的組織提供風險管理與人工智慧管理。",
+							image: "img/5-ISO-standardize-AI-terminology-and-concepts.jpg",
+							fullContent: "ISO/IEC 22989:2022<br>此標準建立了人工智慧（AI）術語並描述了AI領域的概念。可用於開發其他標準並支持不同利益相關者之間的溝通。<br><br>ISO/IEC 23053:2022<br>此標準建立了一個人工智慧（AI）和機器學習（ML）框架，用於描述利用ML技術的一般AI系統。該框架描述了AI生態系統中系統組件及其功能。<br><br>ISO/IEC 23984:2023<br>此標準提供了對開發、生產、部署或使用人工智慧（AI）產品、系統和服務的組織的風險管理指導。該指導還旨在協助組織將風險管理整合到與AI相關的活動和功能中。<br><br>ISO/IEC 42001:2023<br>此標準為組織建立、實施、維護及持續改進人工智慧管理系統（AIMS）提供了指導。這是首個提供專門針對AI的可認證管理系統的標準。<br><br>ISO/IEC 23894:2023<br>此標準提供了人工智慧（AI）風險管理的指導，旨在幫助組織理解和管理AI系統的風險。"
+						},
+						{
+							id: 10,
+							title: "10 項核心未來技能，領導數位時代的創新與轉型",
+							excerpt: "賦予員工在快速變化的世界中蓬勃發展的能力。",
+							image: "img/10-Core-Future -Skills-Leading-Innovation-and-Transformation-in the-Digital-Age.jpg",
+							fullContent: "10 項核心未來技能，領導數位時代的創新與轉型<br><br>1. 好奇心與終身學習：<br>企業認為這種社會情感態度的重要性正在迅速增長。這顯示出企業強調員工需要具備韌性和反思能力，並擁抱終身學習的文化，因為他們的技能壽命正在縮短。<br><br>2. 韌性、靈活性與敏捷性：<br>這些特質能幫助員工在面對變化和挑戰時快速適應和恢復。<br><br>3. 內在動機與自我意識：<br>這些特質能幫助員工理解自己的需求和目標，並推動自己向前。<br><br>4. 系統思維：<br>這種思維方式能幫助員工理解和解決複雜問題。<br><br>5. 人工智慧與大數據：<br>這些技術能幫助員工處理和分析大量資訊，並從中獲取有價值的見解。<br><br>6. 人才管理：<br>這項技能能幫助員工有效管理和發展他們的團隊。<br><br>7. 服務導向與客戶服務：<br>這些技能能幫助員工提供高品質的服務，滿足客戶需求。<br><br>8. 分析思維：<br>這種思維方式能幫助員工理解和解決問題。<br><br>9. 領導力與社會影響力：<br>這些技能能幫助員工影響和領導他們的團隊。<br><br>10. 可靠性與細節關注：<br>這些特質能幫助員工提供高品質的工作。"
+						}
+                    ]
+                }
+            },
+            computed: {
+                paginatedPosts() {
+                    const start = (this.currentPage - 1) * this.postsPerPage;
+                    const end = start + this.postsPerPage;
+                    return this.blogPosts.slice(start, end);
+                },
+                totalPages() {
+                    return Math.ceil(this.blogPosts.length / this.postsPerPage);
+                }
+            },
+			methods: {
+				initAnimations() {
+					gsap.registerPlugin(ScrollTrigger);
+
+					gsap.from('.blog-header', {
+						opacity: 0,
+						y: 50,
+						duration: 1,
+						ease: "power3.out",
+						scrollTrigger: {
+							trigger: '.blog-header',
+							start: 'top bottom-=100',
+						}
+					});
+
+					gsap.utils.toArray('.blog-post').forEach((post, index) => {
+						gsap.from(post, {
+							opacity: 0,
+							y: 50,
+							duration: 0.8,
+							delay: index * 0.2,
+							ease: "power3.out",
+							scrollTrigger: {
+								trigger: post,
+								start: 'top bottom-=50',
+							}
+						});
+					});
+				},
+				showFullArticle(post) {
+					this.currentArticle = post;
+					this.currentView = 'fullArticle';
+					window.scrollTo(0, 0);
+					this.$nextTick(() => {
+						gsap.from('.full-article', {
+							opacity: 0,
+							y: 50,
+							duration: 0.8,
+							ease: "power3.out"
+						});
+					});
+				},
+				backToBlogList() {
+					this.currentView = 'blogList';
+					this.currentArticle = null;
+					window.scrollTo(0, 0);
+					this.$nextTick(() => {
+						this.initAnimations();
+					});
+				},
+				changePage(pageNumber) {
+					this.currentPage = pageNumber;
+					window.scrollTo(0, 0);
+					this.$nextTick(() => {
+						this.initAnimations();
+					});
+				},
+				toggleMenu() {
+					this.menuActive = !this.menuActive;
+				},
+				setActivePage(pageId) {
+					this.activePage = pageId;
+					this.menuActive = false;
+				},
+				changeLanguage() {
+					if (this.selectedLanguage === 'en') {
+						window.location.href = 'blog.html';
+					} else if (this.selectedLanguage === 'zh') {
+						window.location.href = 'blog-zh.html';
+					}
+				}
+			},
+			mounted() {
+				this.$nextTick(() => {
+					this.initAnimations();
+				});
+			}
+			}).mount('#app')
+    </script>
+</body>
+</html>
